@@ -28,8 +28,8 @@ Before setting up the project, make sure you have the following installed:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/ADuyOOP/prac6-composev2
-   cd prac6-composev2
+   git clone https://github.com/ADuyOOp/English-Online-Exam-Website-Version2.git
+   cd English-Online-Exam-Website-Version2
    ```
 
 2. Install dependencies:
