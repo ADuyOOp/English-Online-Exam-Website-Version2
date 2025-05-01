@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "alert": "^6.0.2",
+    "body-parser": "^1.20.2",
+    "chrono-node": "^2.8.0",
+    "crypto": "^1.0.1",
+    "dialog-node": "^0.2.1",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-group-routes": "^1.1.0",
+    "express-route-grouping": "^1.1.2",
+    "express-router-group": "^0.1.4",
+    "express-session": "^1.18.0",
+    "gin": "^0.0.1",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.12.0",
+    "popups": "^1.1.3"
+  }
+}

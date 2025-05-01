@@ -1,0 +1,161 @@
+<style>
+.header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid #eee;
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 3.5rem;
+      width: 3.5rem;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 550;
+      color: #1a1a1a;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .nav-item {
+      text-decoration: none;
+      color: #1a1a1a;
+      font-size: 1.2rem;
+      font-weight: 600;
+      transition: color 0.3s ease;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .nav-item:hover {
+      color: #FF7F50;
+    }
+
+    .nav-item.active {
+      color: #FF7F50;
+    }
+
+    .user-profile {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-icon {
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        z-index: 1000;
+        min-width: 150px;
+        text-align: center;
+    }
+
+    .dropdown-menu .username {
+        padding: 10px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        margin: auto;
+    }
+
+    .dropdown-menu .logout-button {
+        background-color: #ff4d4f;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        margin: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .dropdown-menu .logout-button:hover {
+        background-color: #d9363e;
+    }
+
+    .dropdown-menu .login-link {
+        display: block;
+        text-decoration: none;
+        color: #007bff;
+        padding: 10px;
+    }
+
+    .dropdown-menu .login-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<header class="header">
+    <a href="/" class="logo">
+      <img src="/assets/logo.png" alt="EstudyMe Logo">
+      <span class="logo-text">Estudy</span>
+    </a>
+    
+    <nav class="nav-menu">
+      <a href="/exam/list/" class="nav-item">Test exam</a>
+      <a href="/manage/list/" class="nav-item">Manage exam</a>
+      <a href="/data/" class="nav-item">Compose exam</a>
+      <a href="/user/list" class="nav-item">Manage account</a>
+
+      <div class="user-profile">
+          <div class="profile-dropdown">
+            <div class="profile-icon" onclick="toggleDropdown()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle> 
+              </svg>
+            </div>
+            <div id="dropdown-menu" class="dropdown-menu">
+                <% if (Username != "") { %>
+                    <p class="username"><%= Username %></p>
+                    <button onclick="window.location.href='/manage/logout'" class="logout-button">Logout</button>
+                <% } %>
+            </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById('dropdown-menu');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+    window.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('dropdown-menu');
+        if (!event.target.closest('.profile-dropdown')) {
+            dropdown.style.display = 'none';
+        }
+    });
+  </script>

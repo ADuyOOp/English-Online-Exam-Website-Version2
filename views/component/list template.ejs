@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #ffffff; 
+            color: #000000; 
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+
+        .navbar a, .navbar span {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #007bff;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 5px 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 99;
+        }
+
+        .timer .clock-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 80px auto 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .audio-player {
+            background: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .play-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .progress-bar {
+            flex-grow: 1;
+            height: 5px;
+            background: #ddd;
+            position: relative;
+        }
+        .progress {
+            width: 30%;
+            height: 100%;
+            background: #ff7f50;
+            position: relative;
+        }
+        .progress::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: -5px;
+            width: 15px;
+            height: 15px;
+            background: #ff7f50;
+            border-radius: 50%;
+        }
+        .time, .speed-btn, .volume-btn {
+            font-size: 14px;
+            color: #666;
+        }
+        .speed-btn, .volume-btn {
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 2px 5px;
+            cursor: pointer;
+        }
+        .image-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .image-container img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .zoom-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding-bottom: 20px;
+        }
+        .zoom-btn {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-btn .zoom-btn-icon {
+            width: 24px; /* Adjust size as needed */
+            height: 24px;
+            color: #000000; /* Adjust eye color */
+        }
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background: #f8f9fa;
+        }
+        .option input[type="radio"] {
+            margin: 0;
+        }
+
+        .image-column, .questions-column {
+            flex: 1;
+        }
+
+        .quiz-content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .image-column, .questions-column {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+        .quiz-content {
+            flex-direction: column;
+        }
+        .vertical-divider {
+            display: none;
+        }
+        }
+
+        .vertical-divider {
+            width: 1px;
+            background-color: #1c1313;
+            align-self: stretch;
+            position: relative;
+        }
+
+        .text-column {
+            flex: 1;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <span> Mini Test</span>
+    </nav>
+
+<!-- ________________________________Listening 1 ques_____________________________________________________ -->
+    <div class="timer">
+        <svg class="clock-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        00:59:06
+    </div>
+
+    <div class="quiz-container">
+        <div class="question">
+            <h3>Question 1.</h3>
+            <div class="audio-player">
+                <div class="audio-controls">
+                    <button class="play-btn">▶</button>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                <div class="time">
+                    00:00 / 00:19
+                </div>
+                <button class="speed-btn">1x</button>
+                <button class="volume-btn">🔊</button>
+            </div>
+
+            <div class="image-container">
+                <img src="https://via.placeholder.com/600x400" alt="Question Image">
+            </div>
+            <div class="zoom-controls">
+                <button class="zoom-btn">
+                    <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </button>
+                <button class="zoom-btn">
+                    <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                </button>
+                
+                <button class="zoom-btn">
+                    <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                </button>
+            </div>
+            <p>Automat CFO Sergei Rostov's speech on trends in the high-tech industry drew an audience consisting mostly of ________ entrepreneurs.</p>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="answer1" value="0">
+                    <span>(A)</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer1" value="1">
+                    <span>(B)</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer1" value="2">
+                    <span>(C)</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer1" value="3">
+                    <span>(D)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+<!-- _________________________________Listening column____________________________________________________ -->
+    <div class="quiz-container">
+        <div class="audio-player">
+            <div class="audio-controls">
+                <button class="play-btn">▶</button>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <div class="time">
+                00:00 / 00:54
+            </div>
+            <button class="speed-btn">1x</button>
+            <button class="volume-btn">🔊</button>
+        </div>
+        <div class="quiz-content">
+            <div class="image-column">
+                <div class="image-container">
+                    <img src="https://via.placeholder.com/600x400" alt="Question Image">
+                </div>
+                <div class="zoom-controls">
+                    <button class="zoom-btn">
+                        <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                    <button class="zoom-btn">
+                        <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                    </button>
+                    
+                    <button class="zoom-btn">
+                        <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="vertical-divider"></div>
+            <div class="questions-column">
+                <div class="question">
+                    <h3>Question 2.</h3>
+                    <p>What type of event is happening tonight?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q26" value="A">
+                            <span>(A) A performance rehearsal</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="B">
+                            <span>(B) An awards ceremony</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="C">
+                            <span>(C) A movie screening</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="D">
+                            <span>(D) A play opening</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question">
+                    <h3>Question 3.</h3>
+                    <p>What does the woman ask the man to do?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q27" value="A">
+                            <span>(A) Arrange some furniture</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="B">
+                            <span>(B) Work a late shift</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="C">
+                            <span>(C) Hang up some frames</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="D">
+                            <span>(D) Greet incoming guests</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question">
+                    <h3>Question 4.</h3>
+                    <p>Look at the graphic. Where most likely will photos be taken?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q28" value="A">
+                            <span>(A) In Area A</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="B">
+                            <span>(B) In Area B</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="C">
+                            <span>(C) In Area C</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="D">
+                            <span>(D) In Area D</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- ____________________________________Reading 1 question_________________________________________________ -->
+    <div class="quiz-container">
+        <div class="question">
+            <h3>Question 5.</h3>
+            
+            <p>Automat CFO Sergei Rostov's speech on trends in the high-tech industry drew an audience consisting mostly of ________ entrepreneurs.</p>
+
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="answer50" value="A">
+                    <span>(A) aspiring</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer50" value="B">
+                    <span>(B) aspired</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer50" value="C">
+                    <span>(C) aspire</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="answer50" value="D">
+                    <span>(D) aspiration</span>
+                </label>
+            </div>
+        </div>
+    </div>
+<!-- _______________________________________Reading column______________________________________________ -->
+    <div class="quiz-container">
+        <div class="quiz-content">
+            <div class="text-column">
+                <p>Whether you're a professional athlete or just an enthusiastic amateur, having the right shoe is crucial for improving your performance. The Lynx sneaker is the result of 25 years of research and experimentation into the perfect athletic shoe. The Jet Shoe Company has worked with some of the finest sports scientists and conducted tests with the world's top athletes to develop the Lynx. And the effort shows in everything you do while wearing them.
+
+                    Our patented Absorbex technology cushions your joints from impacts as you run while providing a firm surface to spring off from. And the collar is specially designed to provide extra stability to your ankle, reducing the risk of sprains. The Lynx is used by top athletes like sprinter Dwayne Harrison and basketball player Andrew Singer. Top coach Dennis Potts of the Baltimore Crabs football team recommends all his players wear shoes that use the technology when in the gym.</p>
+            </div>
+            <div class="vertical-divider"></div>
+            <div class="questions-column">
+                <div class="question">
+                    <h3>Question 6.</h3>
+                    <p>What type of event is happening tonight?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q26" value="A">
+                            <span>(A) A performance rehearsal</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="B">
+                            <span>(B) An awards ceremony</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="C">
+                            <span>(C) A movie screening</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="D">
+                            <span>(D) A play opening</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question">
+                    <h3>Question 7.</h3>
+                    <p>What does the woman ask the man to do?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q27" value="A">
+                            <span>(A) Arrange some furniture</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="B">
+                            <span>(B) Work a late shift</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="C">
+                            <span>(C) Hang up some frames</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="D">
+                            <span>(D) Greet incoming guests</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="question">
+                    <h3>Question 8.</h3>
+                    <p>Look at the graphic. Where most likely will photos be taken?</p>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q28" value="A">
+                            <span>(A) In Area A</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="B">
+                            <span>(B) In Area B</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="C">
+                            <span>(C) In Area C</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="D">
+                            <span>(D) In Area D</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

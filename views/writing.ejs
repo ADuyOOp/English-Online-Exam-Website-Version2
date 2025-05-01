@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Analysis Tool</title>
+    <link rel="stylesheet" href="/css/writing.css">
+
+    <!-- Include chrono-node library for time indicator detection -->
+    <script src="https://cdn.jsdelivr.net/npm/chrono-node@2.6.0/dist/chrono.min.js"></script>
+    <script>
+        // Make sure chrono is available globally
+        if (typeof chrono !== 'undefined') {
+            window.chrono = chrono;
+            console.log("Using global chrono");
+        } else if (typeof chronoNode !== 'undefined') {
+            window.chrono = chronoNode;
+            console.log("Using chronoNode");
+        }
+    </script>
+    <!-- Fallback for chrono if CDN fails -->
+    <script src="/js/chrono-fallback.js"></script>
+    <script src="/js/grammarChecker2.js"></script>
+</head>
+<body>
+  <%- include('component/header') %>
+    <section class="hero">
+        <h1 class="hero-title">Test your grammar here!</h1>
+        <div class="tab-container">
+        <a style="text-decoration: none; color: black;" href="/exam/list/">
+            <div class="tab">Listening & Reading</div>
+        </a>
+            <div class="tab active">Grammar Detector</div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="header">
+            <div class="language-selector">English</div>
+        </div>
+
+        <div class="content">
+            <div class="text-input">
+                <textarea name="writing" placeholder="To analyze text, add at least 2 words."></textarea>
+            </div>
+            <button class="detect-button">Detect</button>
+            <div class="analysis-panel">
+                <div class="analysis-message">
+                    Add text to<br>begin analysis
+                </div>
+                <div class="divider"></div>
+            </div>
+        </div>
+
+        <div class="footer1">
+          <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a> apply.
+        </div>
+    </div>
+    <%- include('component/footer') %>
+</body>
+</html>

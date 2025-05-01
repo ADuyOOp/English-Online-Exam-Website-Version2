@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FULL EXAM</title>
+    <link rel="stylesheet" href="/css/load.css">
+</head>
+<body>
+    <%- include('component/header') %> <!-- Include Header Component -->
+    <main class="main-content">
+        <div class="test-card">
+            <div class="card-content">
+                <div class="illustration">
+                    <img src="/assets/overview-test.webp" alt="Online Test Illustration">
+                </div>
+                <div class="test-info">
+                    <h2 class="test-title">EXAM <%= exam.Examid %> </h2>
+                    <p class="test-description">
+                        The test is divided into 4 parts with <%= exam.Tquestion %> questions. The exam will last <%= exam.Duration %> minutes.
+                    </p>
+                </div>
+                <a href="/exam/list/<%=exam.Examid%>" class="start-button-link">
+                    <button class="start-button">
+                        <span class="start-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </span>
+                        Start Now
+                    </button>
+                </a>
+            </div>
+        </div>
+    </main>
+    <%- include('component/footer') %> <!-- Include Footer Component -->
+</body>
+</html>

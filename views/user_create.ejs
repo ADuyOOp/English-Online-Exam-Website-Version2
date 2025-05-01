@@ -1,0 +1,134 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create account</title>
+  <link rel="stylesheet" href="/css/user_page.css"> 
+</head>
+    <body>
+      <%- include('component/header') %> 
+  <div class="form_container">
+    <form class="form" method="POST" formaction="/user/create">
+      <p class="title">Create User</p>
+      <p class="message">Create an account for your staff or admin</p>   
+      <label>
+          <input class="input" name="name" type="text" required/>
+          <span>Username</span>
+      </label> 
+          
+      <label>
+          <input class="input" name="password" type="password" required/>
+          <span>Password</span>
+      </label>
+      <label>
+          <input class="input" name="password-confirm" type="password" required>
+          <span>Confirm password</span>
+      </label>
+
+      <label><span>Role:</span></label>
+        <div class="custom-select-container">
+          <select class="hidden-select" name="role" id="role">
+            <option value="staff" selected>staff</option>
+            <option value="admin">admin</option>
+          </select>
+          
+          <div class="select-selected">
+            <span class="select-text">staff</span>
+            <div class="select-arrow"></div>
+          </div>
+          
+          <div class="select-items">
+            <div class="select-item selected" data-value="a">staff</div>
+            <div class="select-item" data-value="b">admin</div>
+          </div>
+      </div>
+      <button class="submit" type="submit">Submit</button>
+    </form>
+    </div>
+    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          //************* Script custom select *************//
+          const selectContainer = document.querySelector('.custom-select-container');
+          const selectSelected = document.querySelector('.select-selected');
+          const selectText = document.querySelector('.select-text');
+          const selectItems = document.querySelector('.select-items');
+          const selectOptions = document.querySelectorAll('.select-item');
+          const hiddenSelect = document.querySelector('.hidden-select');
+          
+          // Toggle dropdown on click
+          selectSelected.addEventListener('click', function(e) {
+              e.stopPropagation();
+              this.classList.toggle('active');
+              selectItems.classList.toggle('show');
+              
+              // Add subtle entrance animation for each option
+              selectOptions.forEach((option, index) => {
+              option.style.animation = `fadeIn 0.2s ease forwards ${index * 0.05}s`;
+              });
+          });
+          
+          // Select option
+          selectOptions.forEach(item => {
+              item.addEventListener('click', function() {
+              // Update hidden select value
+              hiddenSelect.value = this.getAttribute('data-value');
+              
+              // Update selected text only (not the arrow)
+              selectText.textContent = this.textContent;
+              
+              // Update selected class
+              document.querySelector('.select-item.selected').classList.remove('selected');
+              this.classList.add('selected');
+              
+              // Close dropdown
+              selectSelected.classList.remove('active');
+              selectItems.classList.remove('show');
+              
+              // Trigger change event on the original select
+              const event = new Event('change');
+              hiddenSelect.dispatchEvent(event);
+              });
+          });
+          
+          // Close dropdown when clicking outside
+          document.addEventListener('click', function() {
+              selectSelected.classList.remove('active');
+              selectItems.classList.remove('show');
+          });
+          
+          // Prevent closing when clicking inside the dropdown
+          selectItems.addEventListener('click', function(e) {
+              e.stopPropagation();
+          });
+
+          //************* Form validation script *************//
+          const form = document.querySelector('.form');
+          const submitButton = document.querySelector('.submit');
+          const inputs = form.querySelectorAll('input[required]');
+
+          // Function to check if all required fields are filled
+          function checkForm() {
+            let allFilled = true;
+            inputs.forEach(input => {
+              if (!input.value.trim()) {
+                allFilled = false;
+              }
+            });
+            // check if passwords match
+            const password = form.querySelector('input[name="password"]').value;
+            const confirmPassword = form.querySelector('input[name="password-confirm"]').value;
+            const passwordsMatch = password === confirmPassword;
+
+            submitButton.disabled = !allFilled || !passwordsMatch;
+          }
+          // Add event listeners to all required inputs
+          inputs.forEach(input => {
+            input.addEventListener('input', checkForm);
+            input.addEventListener('change', checkForm);
+          });
+          // Initial check
+          checkForm();
+      });    
+    </script>
+</html>

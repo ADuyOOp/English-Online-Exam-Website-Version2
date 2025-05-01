@@ -1,0 +1,88 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEST COMPOSING</title>
+  <link rel="stylesheet" href="/css/test_home.css"> 
+</head>
+
+<body>
+  <%- include('component/header') %> 
+  <div class="container">
+    <h2>TOEIC TEST COMPOSING</h2>
+
+    <% var partname = part_name %>
+
+    <% if (skill == null) { %>
+      <button onclick="location.href='/data/list/listening'" class="button-skill"><span>Test Listening</span></button>  
+      <p></p>  
+      <button onclick="location.href='/data/list/reading'" class="button-skill"><span>Test Reading</span></button>  
+      <p></p>
+
+    <% } else { %>
+      <!-- {{/**** view listening tree ****/}} -->
+      <% if (skill_name == "listening") { %> 
+        <button onclick="location.href='/data/'" class="button-skill"><span>Test Listening</span></button>           
+        <p></p>
+        <ul>
+          <!-- {{/**** browse parts in listening ****/}}   -->
+          <% for (var Part of skill.ArrPart) { %>
+            <!-- {{/**** if is part selected ****/}}  -->
+            <% if (Part.Partname == partname) { %>
+              <form method="post"  class="button-container">
+                <button type="button" onclick="location.href='/data/list/listening'" class="button-part"><span><%= Part.Partname %>:</span></button>                  
+                <button class="Btn" type="submit" formaction="/data/create/listening/<%=partname%>">
+                  <div class="sign">+</div>
+                  <div class="text">Create</div>
+                </button>
+              </form>
+              <ul>
+                <!-- {{/**** browse tests in part selected ****/}} -->
+                <% for (var Test of Part.ArrTest) { %>
+                  <li><a href="/data/edit/listening/<%=partname%>/<%=Test.Testname%>"><%=Test.Testname%></a></li>
+                <% } %>   <%/** end ArrTest */%>
+              </ul> 
+            <!-- {{/**** view name of part unselected ****/}}  -->
+            <% } else { %>           
+              <li><a href="/data/list/listening/<%=Part.Partname%>"><%=Part.Partname%>:</a></li>
+            <% } %>   <%/** end if Partname */%> 
+          <% } %>   <%/** end range ArrPart */%> 
+        </ul> 
+        <button onclick="location.href='/data/list/reading'" class="button-skill"><span>Test Reading</span></button>  
+
+      <% } %>     <%/** end listening */%>
+
+      <% if (skill_name == "reading") { %> 
+        <button onclick="location.href='/data/list/listening'" class="button-skill"><span>Test Listening</span></button> 
+        <p></p> 
+        <button onclick="location.href='/data/'" class="button-skill"><span>Test Reading</span></button>  
+
+        <ul>
+          <!-- {{/**** browse parts in reading ****/}}   -->
+          <% for (var Part of skill.ArrPart) { %>
+            <!-- {{/**** if is part selected ****/}}  -->
+            <% if (Part.Partname == partname) { %>
+              <form method="post" class="button-container">
+                <button type="button" onclick="location.href='/data/list/listening'" class="button-part"><span><%= Part.Partname %></span></button>  
+                <button class="Btn" type="submit" formaction="/data/create/reading/<%=partname%>">
+                  <div class="sign">+</div>
+                  <div class="text">Create</div>
+                </button>
+              </form>    
+              <ul>
+                <!-- {{/**** browse tests in part selected ****/}} -->
+                <% for (var Test of Part.ArrTest) { %>
+                  <li><a href="/data/edit/reading/<%=partname%>/<%=Test.Testname%>"><%=Test.Testname%></a></li>
+                <% } %>   <%/** end ArrTest */%> 
+              </ul> 
+            <!-- {{/**** view name of part unselected ****/}}  -->
+            <% } else { %>           
+              <li><a href="/data/list/reading/<%=Part.Partname%>"><%=Part.Partname%></a></li>
+            <% } %>   <%/** end if Partname */%> 
+          <% } %>   <%/** end ArrPart */%>  
+        </ul>           
+      <% } %>   <%/** end reading */%>
+    <% } %>     <%/** end else skill */%>
+  </div> <!-- End of container -->
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+    <head>
+    <title>Test Edit</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/css/list.css"> 
+    <link rel="stylesheet" href="/css/test_compose_listening.css"> -->
+    </head>
+    <body>
+    <%=test_name%> <p></p>
+        <% var pathtest = path_test %>
+        <% var audio = Test.Audio %>
+        <% var image = Test.Image %>
+        <% var arrQues = Test.ArrQues %>
+        <% var coText = Test.CoText %>
+        <% var partname = part_name %>
+        <% var arrResult = arrResult %>
+
+    <form method="post" action="/data/save" enctype="multipart/form-data">
+        <% if (skill_name == "listening") { %>
+            Update a file audio by upload: <input type="file" id="audiofile" name="audiofile" accept="audio/*" size="50" onchange="audio_load()"> <p></p>
+            Audio: <br>                
+                <audio controls name="audio" id="audio">
+                    <source src="/audio/<%=audio%>" type="audio/ogg">
+                    Your browser does not support the audio element.
+                    </audio> 
+                    <input type="hidden" name="audiohidden" value="<%=audio%>"> 
+                <p></p>
+            Update Text for audio: <br>
+                <textarea name="text" rows="4" cols="100"><%=coText%></textarea> <p></p>
+
+            <% if (part_name == "Photographs") { %> 
+                Update a file image by upload:: <input type="file" id="imagefile" name="imagefile" accept="image/*" size="50" onchange="image_load()"> <p></p>
+                Image: <br>
+                    <img src= "/image/<%=image%>" name="image" id="image" width="200" height="200">
+                    <input type="hidden" name="imagehidden" value="<%=image%>">   
+                        <p></p>
+            <% } %>    <%/** end Photographs */%>   
+
+        <% }else{ %>            
+
+            <% if (skill_name == "reading") { %>
+                Update Text for reading: <br>
+                <textarea name="text" rows="4" cols="100"><%=coText%></textarea> <p></p>     
+            <% } %>    <%/** end if reading */%>   
+
+        <% } %>    <%/** end if listening */%>          
+
+        <% var tt = "" %>
+        <% for (var id=0; id<arrQues.length; id++) { %>
+            <% if (id==0) {tt = "1"} %>
+            <% if (id==1) {tt = "2"} %>
+            <% if (id==2) {tt = "3"} %>
+            <% if (id==3) {tt = "4"} %>
+
+            <% var content = arrQues[id].Content %>
+            <% if ((partname == "Sentences") || (partname == "Text")) { %>
+                <textarea id="question" name="question" rows="4" cols="100" hidden><%=content%></textarea> <p></p>
+            <% }else{ %>
+                Update question <%=tt%>: <p></p>
+                <textarea id="question" name="question" rows="4" cols="100"><%=content%></textarea> <p></p>
+            <% } %>
+            <% var olet = "" %>
+            
+            <% if (partname == "Text") { %>
+                Update options <%=tt%>: <p></p>
+            <% } %>
+            <% for (var index=0; index<arrQues[id].ArrOpt.length; index++) {%>
+                <% if (index == 0) {olet = "a"} %>
+                <% if (index == 1) {olet = "b"} %>
+                <% if (index == 2) {olet = "c"} %>
+                <% if (index == 3) {olet = "d"} %>
+
+                <%=olet%>) <input type="text" name="opt" size="100" value="<%=arrQues[id].ArrOpt[index]%>"> <p></p>
+            <% } %>    <%/** end ArrOpt */%> 
+
+            <% var result = arrQues[id].Result %>
+            Result: <select name="result" id="result">
+                <% for (var pt=0; pt<arrQues[id].ArrOpt.length; pt++) { %>}
+                    <% if (result == arrResult[pt]) { %> <option value="<%=result%>" selected><%=result%></option>
+                    <% }else{ %> <option value="<%=arrResult[pt]%>"><%=arrResult[pt]%></option>
+                    <% } %>
+                <% } %>
+                    </select>
+            <p></p>        
+        <% } %>    <%/** end ArrQues */%>    
+                
+        <button type="button"><a href="/data/list/<%=skill_name%>/<%=part_name%>">cancel</a></button>        
+        <input type="submit" value="submit"/>
+        
+        <input type="hidden" name="skill" value="<%=skill_name%>">
+        <input type="hidden" name="part" value="<%=part_name%>">
+        <input type="hidden" name="test" value="<%=test_name%>">
+    </form>
+    </body>
+    <script>
+        function audio_load(){
+            console.log("audio")
+            audio = document.getElementById("audio")
+            audiofile = document.getElementById("audiofile")
+            const [file] = audiofile.files
+            if (file) {
+                audio.src = URL.createObjectURL(file)
+            }
+        }
+        function image_load(){
+            console.log("image")
+            image = document.getElementById("image")
+            imagefile = document.getElementById("imagefile")
+            const [file] = imagefile.files
+            if (file) {
+                image.src = URL.createObjectURL(file)
+            }
+        }
+    </script>
+</html>

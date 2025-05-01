@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEIC® Test Pro</title>
+    <link rel="stylesheet" href="/css/listall.css">
+  </head>
+  <body>
+    <%- include('component/header') %> <!-- Include Header Component -->
+    <section class="hero">
+      <h1 class="hero-title">Start your TOEIC® Online Test Now!</h1>
+      <div class="tab-container">
+          <div class="tab active">Listening & Reading</div>
+
+        <a style="text-decoration: none; color: black;" href="/exam/list2/">
+          <div class="tab">Grammar Detector</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Listening section -->
+    <section class="exam-section">
+      <h2 class="section-title">Listening</h2>
+      <div class="exam-grid">
+        <!-- init for loop -->
+        <% console.log(earr) %>
+        <% for(var i=0;i<earr.length;i++){
+          let exam = earr[i];
+        %>
+        <!-- //// -->
+        <% if (earr[i].Skillid === 1) { %>
+        <a href="/exam/load/<%=exam.Examid%>" class="exam-card-link">
+          <div class="exam-card">
+            <div class="card-header gradient-5">
+              <p><b>TOEIC®</b></p>
+              <p><b>LISTENING</b></p>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Exam No <%=exam.Examid%></h4>
+              <div class="details">
+                <div>0/100<br><span>Attempted</span></div>
+                <div>0<br><span>Participants</span></div>
+            </div>
+            </div>
+          </div>
+        </a>
+        <% } %>
+        <% } %>
+      </div>
+    </section>
+    <!-- Reading Section -->
+    <section class="exam-section">
+      <h2 class="section-title">Reading</h2>
+      <div class="exam-grid">
+        <!-- init for loop -->
+        <% console.log(earr) %>
+        <% for(var i=0;i<earr.length;i++){
+          let exam = earr[i];
+        %>
+        <!-- //// -->
+        <% if (earr[i].Skillid === 2) { %>
+        <a href="/exam/load/<%=exam.Examid%>" class="exam-card-link">
+          <div class="exam-card">
+            <div class="card-header gradient-8">
+              <p><b>TOEIC®</b></p>
+              <p><b>READING</b></p>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Exam No <%=exam.Examid%></h4>
+              <div class="details">
+                <div>0/100<br><span>Attempted</span></div>
+                <div>0<br><span>Participants</span></div>
+            </div>
+            </div>
+          </div>
+        </a>
+        <% } %>
+        <% } %>
+      </div>
+    </section>
+    <%- include('component/footer') %> <!-- Include Footer Component -->
+  </body>
+</html>

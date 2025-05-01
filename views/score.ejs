@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Results</title>
+    <link rel="stylesheet" href="/css/score.css">
+</head>
+<body>
+    <%- include('component/header') %>
+    <div class="score-container">
+        <div class="score-card">
+            <div class="test-title"><h1>Exam No: <%=Exam.Examid%></h1></div>
+            <div class="score-header">
+                <h2 style="padding-bottom: 1.0rem;">Your score is:</h2>
+                <div class="total-score">
+                    <div class="score-number">0</div>
+                    <div class="score-label">TOTAL SCORE</div>
+                </div>
+            </div>
+            <div class="score-details">
+                <% var id = Exam.Examid %>
+                <% for (var part of Exam.ArrPart){ %>
+                <div class="score-section">
+                    <div class="section-title"><b><%= part.Partname %></b></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-right="<%= part.Rightanswer %>" data-total="<%= part.Numquestion %>"></div>
+                        <div class="score-bubble"><%= part.Rightanswer %></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                        <span>0</span>
+                        <span><%= part.Numquestion %></span>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            <div class="button-group">
+                <a href="/exam/review/<%=Exam.Examid%>" class="btn btn-primary">Review</a>
+            </div>
+        </div>
+    </div>
+    <%- include('component/footer') %>
+    
+    <script>
+        /*******Script for dynamic score bar and total score calculation********/
+        document.addEventListener('DOMContentLoaded', function () {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            const totalScoreElement = document.querySelector('.score-number');
+            let totalRightAnswers = 0;
+
+            progressBars.forEach(bar => {
+                const fill = bar.querySelector('.progress-fill');
+                const bubble = bar.querySelector('.score-bubble');
+
+                const rightAnswers = parseInt(fill.getAttribute('data-right'), 10);
+                const totalQuestions = parseInt(fill.getAttribute('data-total'), 10);
+
+                // Add to the total right answers
+                totalRightAnswers += rightAnswers;
+
+                // Calculate the percentage width
+                const percentage = (rightAnswers / totalQuestions) * 100;
+
+                // Set the progress bar width
+                fill.style.width = percentage + '%';
+
+                // Position the bubble at the end of the progress fill
+                const offset = 12;
+                bubble.style.left = `calc(${percentage}% - ${bubble.offsetWidth}px + ${offset}px)`;
+            });
+
+            // Update the total score element
+            totalScoreElement.textContent = totalRightAnswers;
+        });
+        /*******End of script for dynamic score bar and total score calculation********/
+    </script>
+</body>
+</html>

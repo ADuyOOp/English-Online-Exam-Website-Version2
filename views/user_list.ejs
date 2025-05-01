@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/user_list.css"> 
+    <title>List All Users</title>
+</head>
+
+<body>
+    <%- include('component/header') %> 
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Account list</h2>
+        </div>
+
+        <form method="post">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Password</th>
+                            <th>Role</th>
+                            <th colspan="2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (var User of ArrUser) { %>
+                        <tr>
+                            <td><%= User.Userid %></td> 
+                            <td><%= User.Name %></td>
+                            <td><%= User.Pass %></td>
+                            <td><%= User.Role %></td>
+                            <td>
+                                <input type="submit" class="btn btn-secondary action-btn" value="Edit" formaction="/user/edit/<%=User.Userid%>">
+                            </td> 
+                            <td>
+                                <input type="submit" class="btn btn-danger action-btn" value="Remove" formaction="/user/remove/<%=User.Userid%>">
+                            </td> 
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="actions">
+                <button type="button" class="btn btn-primary">
+                    <a href="/user/create">Create New User</a>
+                </button>
+                <a href="/<%=User.username%>" class="link">Back to Home</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Add this script to censor passwords without changing existing HTML
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordCells = document.querySelectorAll('tbody td:nth-child(3)');
+            
+            passwordCells.forEach(cell => {
+                const originalPass = cell.textContent.trim();
+                if (originalPass.length > 2) {
+                    // Keep first and last character, replace middle with asterisks
+                    const censored = originalPass.charAt(0) + 
+                                    '*'.repeat(originalPass.length - 2) + 
+                                    originalPass.slice(-1);
+                    cell.textContent = censored;
+                } else if (originalPass.length > 0) {
+                    // For very short passwords, just show asterisks
+                    cell.textContent = '*'.repeat(originalPass.length);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

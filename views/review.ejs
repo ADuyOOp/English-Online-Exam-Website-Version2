@@ -1,0 +1,298 @@
+<html>
+    <head>
+    <title>Exam Review</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/review.css">
+    </head>
+    <body>
+        <%- include('component/header') %>
+        <h1>Exam <%=Exam.Examid%> Review</h1>
+        <% var skillID = Exam.Skillid%>
+        <p></p>
+
+        <!-- /**********************************************************************************/ -->
+        <!-- <%/***** Parts point to array of Part *****/%> -->
+        <% let Parts = Exam.ArrPart %> 
+
+        <!-- {{/*****  listing array of parts *****/}} -->
+        <% for (const Part of Parts) { %>
+            <p id="<%= Part.Partname %>"></p>
+            <h2 class="part-title">Part name: <%= Part.Partname %></h2>
+            <% var pName = Part.Partname %>
+
+            <!-- <%/***** Tests point to array of Test *****/%> -->
+            <% let Tests = Part.ArrTest %>                  
+
+            <!-- {{/*****  listing array of tests *****/}} -->
+            <% for (var Test of Tests) { %>
+                <div class="quiz-container">
+                    <div class="test">
+
+                <!-- {{/*****  If is listening exam *****/}} -->
+                <% if (skillID == 1) { %>
+                    <!-- <audio controls autoplay name="audio"> -->
+                    <div class="audio-player">
+                        <audio id="audio" controls name="audio" style="display: none;">
+                            <source src="/audio/<%= Test.Audio %>" type="audio/ogg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <button id="playPauseBtn" type="button" class="audio-button play-pause-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7b5c">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </button>
+                        <div id="timeDisplay" class="time-display">00:00 / 00:00</div>
+                
+                        <div id="progressBarContainer" class="progress-container">
+                            <div id="progressBar" class="progress-bar"></div>
+                        </div>
+                        <button id="volumeBtn" type="button" class="audio-button">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#666">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                            </svg>
+                        </button>
+                    </div> 
+                    <!-- {{/*****  If is part Photographs *****/}} -->
+                    <% if (pName == "Photographs") { %>
+                        <div class="image-container">
+                            <img src= "/image/<%= Test.Image %>" alt="https://via.placeholder.com/600x400">
+                        </div>
+                        <div class="zoom-controls">
+                            <button class="zoom-btn">
+                                <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <button class="zoom-btn">
+                                <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                </svg>
+                            </button>
+                            
+                            <button class="zoom-btn">
+                                <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    <% } %>
+                <% } %>     <% /** end if */ %>
+                
+                <p></p>
+                <button id="b<%=Test.Testid%>" onclick="toggleIframe('d<%=Test.Testid%>','b<%=Test.Testid%>')">Show Script</button>
+                <div class="hide" id="d<%=Test.Testid%>">
+
+                    <!-- <embed src="/text/<%=Test.Text%>"> -->
+                        <div class="text-box" data-text-src="/text/<%= Test.Text %>">
+                            <pre>Loading...</pre>
+                        </div>
+                </div>
+                <p></p>
+
+                <div class="options">  
+                    <!-- <%/***** Questions point to array of Question *****/%> -->
+                    <% let Questions = Test.ArrQues %>             
+
+                    <!-- {{/*****  listing array of questions *****/}} -->
+                    <% for (var Question of Questions) { %>    
+                        Question: <b class="question-order"><%= Question.Orderquestion %>)</b>
+
+                            <% var soq = Question.StrOrderquestion %>
+                            <% var sqid = Question.StrQuestionid %>
+        
+                            <!-- {{/*****  Display status of question with color *****/}}
+                            {{/*****  Must declare variables before used -  *****/}} -->
+                            <% var result = Question.Result %>
+                            <% var answer = Question.Answer %>
+                            <% var flag = false %>
+                            <% if (Question.Result == Question.Answer) { %>
+                                <% flag = true %>                
+                            <% } %>
+        
+                                <% var olet = "" %>
+                                <% var olay = "" %>
+        
+                                <!-- <%/***** Options point to array of Option *****/%> -->
+                                <% var Options = Question.ArrOpt %>         
+
+                                <!-- {{/*****  listing array of options *****/}} -->
+                                <% for (var index=0; index<Options.length; index++) { %>
+                                    <% if (index == 0) { olet = "a"} %>
+                                    <% if (index == 1) { olet = "b"} %>
+                                    <% if (index == 2) { olet = "c"} %>
+                                    <% if (index == 3) { olet = "d"} %>                       
+        
+                                    <!-- {{/*****  If the selected question is right  *****/}} -->
+                                    <% if (flag && olet == result) { %>
+                                        <label class="option green">
+                                            <input type="radio" name="<%=soq%>" value="<%=Options[index]%>" checked />(<%=olet%>) <%=Options[index]%>
+                                        </label>
+                                    <% } else { %>
+                                        <!-- If the selected question is wrong -->
+                                        <% if (!flag && olet == answer) { %>
+                                            <label class="option red">
+                                                <input type="radio" name="<%=soq%>" value="<%=Options[index]%>" checked />(<%=olet%>) <%=Options[index]%>
+                                            </label>
+                                        <% } else { %>
+                                            <!-- If the question is not selected -->
+                                            <label class="option disabled">
+                                                <input type="radio" name="<%=soq%>" value="<%=Options[index]%>" disabled />(<%=olet%>) <%=Options[index]%>
+                                            </label>
+                                        <% } %>
+                                    <% } %>         <% /** end if */ %>                                    
+
+                                    <input type="hidden" name="sqid" value="<%=sqid%>"/>  
+                                    <p></p>
+                                <% } %>         <%/** ArrOpt */ %>                                                                   
+                    <% } %>         <% /** ArrQues */ %>
+                    </div> 
+                </div>
+            </div>
+            <% } %>  <% /** ArrTest */ %>
+
+        <% } %>     <% /** ArrPart */ %>                        
+        <%- include('component/footer') %>
+        <script>
+            // Fetch and display text file content for all .text-box elements
+            document.querySelectorAll('.text-box').forEach(textBox => {
+                const textSrc = textBox.getAttribute('data-text-src'); // Get the text file path
+                const preElement = textBox.querySelector('pre'); // Get the <pre> element inside the text box
+
+                // Fetch the content of the text file
+                fetch(textSrc)
+                .then(response => response.text())
+                .then(data => {
+                    preElement.textContent = data; // Display the content
+                })
+                .catch(error => {
+                    console.error("Error fetching the text file:", error);
+                    preElement.textContent = "Failed to load content.";
+                });
+            });
+
+
+            /***************Script for Hidden iframe****************/
+            function toggleIframe(did, bid) {
+                var iframe = document.getElementById(did);
+                if (iframe.style.display === "block") {
+                    iframe.style.display = "none";       //hide 
+                } else {
+                    iframe.style.display = "block";      //show
+                }
+                var bt = document.getElementById(bid);
+                if (bt.textContent === "Show Script") {
+                    bt.textContent = "Hide Script";       //hide 
+                } else {
+                    bt.textContent = "Show Script";      //show       
+                }
+            }/*************** End script for Hidden iframe****************/
+
+            /***************Script for Audio player****************/
+             document.addEventListener('DOMContentLoaded', function () {
+            const quizContainers = document.querySelectorAll('.quiz-container');
+
+            quizContainers.forEach((container) => {
+                const audioElement = container.querySelector('#audio');
+                const playPauseBtn = container.querySelector('#playPauseBtn');
+                const timeDisplay = container.querySelector('#timeDisplay');
+                const progressBarContainer = container.querySelector('#progressBarContainer');
+                const progressBar = container.querySelector('#progressBar');
+                const volumeBtn = container.querySelector('#volumeBtn');
+
+                let isDragging = false;
+
+                // Event Listeners
+                playPauseBtn.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    togglePlayPause();
+                });
+
+                volumeBtn.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    toggleMute();
+                });
+
+                audioElement.addEventListener('timeupdate', updateProgress);
+
+                // Progress Bar Dragging
+                progressBarContainer.addEventListener('mousedown', (event) => {
+                    isDragging = true;
+                    updateAudioTime(event);
+                });
+
+                document.addEventListener('mousemove', (event) => {
+                    if (isDragging) {
+                        updateAudioTime(event);
+                    }
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (isDragging) {
+                        isDragging = false;
+                    }
+                });
+
+                // Toggle Play and Pause
+                function togglePlayPause() {
+                    if (audioElement.paused) {
+                        audioElement.play();
+                        playPauseBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7b5c"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                    } else {
+                        audioElement.pause();
+                        playPauseBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7b5c"><path d="M8 5v14l11-7z"/></svg>';
+                    }
+                }
+
+                // Toggle Mute
+                function toggleMute() {
+                    audioElement.muted = !audioElement.muted;
+                    volumeBtn.innerHTML = audioElement.muted
+                        ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="#666"><path d="M3 9v6h4l5 5V4L7 9H3z M16 12l4 4m0-4l-4-4"/></svg>'
+                        : '<svg width="24" height="24" viewBox="0 0 24 24" fill="#666"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>';
+                }
+
+                // Update Progress Bar
+                function updateProgress() {
+                    if (!isDragging) {
+                        const currentTime = formatTime(audioElement.currentTime);
+                        const duration = formatTime(audioElement.duration || 0);
+                        timeDisplay.textContent = `${currentTime} / ${duration}`;
+
+                        const percent = (audioElement.currentTime / audioElement.duration) * 100;
+                        progressBar.style.width = `${percent}%`;
+                    }
+                }
+
+                // Update Audio Time on Drag
+                function updateAudioTime(event) {
+                    const rect = progressBarContainer.getBoundingClientRect();
+                    const offsetX = event.clientX - rect.left;
+                    const percent = Math.min(Math.max(offsetX / rect.width, 0), 1);
+
+                    audioElement.currentTime = percent * audioElement.duration;
+                    progressBar.style.width = `${percent * 100}%`;
+
+                    const currentTime = formatTime(audioElement.currentTime);
+                    const duration = formatTime(audioElement.duration || 0);
+                    timeDisplay.textContent = `${currentTime} / ${duration}`;
+                }
+
+                // Format Time Display
+                function formatTime(seconds) {
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = Math.floor(seconds % 60);
+                    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+                    }
+                });
+            }); /***** End script for audio player *****/ 
+        </script>
+    </body>    
+</html>
+

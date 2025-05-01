@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+    <head>
+    <title>List All User</title>
+    <style>
+        td {text-align: center;}
+        p {text-align: right;}
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+    </head>
+
+    <body>
+        <%- include('component/header') %> 
+
+        <h2>List All User</h2>
+
+        <form method="post">
+        <table border="1">
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Password</th>
+                <th>Role</th>
+            </tr>
+
+            <% for (var User of ArrUser) { %>
+            <tr>
+                <td><%= User.Userid %></td> 
+                <td><%= User.Name %></td>
+                <td><%= User.Pass %></td>
+                <td><%= User.Role %></td>
+            
+                <td><input type="submit" value="Edit" formaction="/user/edit/<%=User.Userid%>"></td> 
+                <td><input type="submit" value="Remove" formaction="/user/remove/<%=User.Userid%>"></td> 
+            
+            </tr>
+            <% } %>
+        </table>        
+        <p></p>
+        <button type="button"><a href="/user/create">Create</a></button>
+        <p></p>
+        <a href="/<%=User.username%>">Home</a>
+    </form>    
+
+    </body>
+
+</html>
+

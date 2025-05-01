@@ -1,0 +1,5 @@
+Transcript:
+(A) People are waiting for a bus.
+(B)People are blocking the entrance.
+(C)People are crossing the street.
+(D)People are standing in a line.

@@ -1,0 +1,29 @@
+{
+    "getAllExam" : "SELECT * FROM exam",
+    "getExam" : "SELECT * FROM exam WHERE exam_id= $1",
+    "getSkillID" : "SELECT skill_id from exam WHERE exam_id = $1",
+    "getSkillName" : "SELECT skill_name from skill WHERE skill_id = $1",
+    "getListPart" : "SELECT * FROM part WHERE exam_id = $1",
+    "getListTest" : "SELECT * FROM test WHERE part_id= $1",
+    "getListQuestion" : "SELECT * FROM question WHERE test_id= $1",
+    "updateQuestion" : "UPDATE question SET answer= $1 WHERE question_id = $2",
+    "findQuestion" : "SELECT question_id FROM question WHERE question_id= $1 AND order_question= $2",
+    "getExamBySkill" : "SELECT * FROM exam WHERE skill_id= $1",
+
+    "deleteExam" :  "DELETE FROM exam WHERE exam_id = $1",
+    "insertExam" : "INSERT INTO exam(total_question, duration, skill_id) VALUES ($1, $2, $3)", 
+    "getLastExam" : "SELECT MAX(exam_id) FROM exam",
+    "insertPart" : "INSERT INTO part(partname, num_question, exam_id) VALUES ($1, $2, $3)",
+    "getLastPart" : "SELECT MAX(part_id) FROM part",
+    "inserTest" : "INSERT INTO test(audioname, imagename, textname, order_test,part_id) VALUES ($1, $2, $3, $4 ,$5)",
+    "getLastTest" : "SELECT MAX(test_id) FROM test",
+    "insertQuestion" : "INSERT INTO question(content, option, result, order_question, test_id) VALUES ($1, $2, $3, $4, $5)",
+
+    "getUser" : "SELECT * FROM account WHERE username= $1 AND pass= $2",
+    "getAllUser" : "SELECT * FROM account",
+    "insertUser" : "INSERT INTO account(username, pass, role) VALUES ($1, $2, $3)",
+    "removeUser" : "DELETE FROM account WHERE user_id = $1",
+    "getUserById" : "SELECT * FROM account WHERE user_id= $1",
+    "updateUser" : "UPDATE account SET username= $1, pass= $2, role= $3  WHERE user_id = $4"
+
+}

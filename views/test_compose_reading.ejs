@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+  <head>
+    <title>Test Compose</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/list.css" />
+    <link rel="stylesheet" href="/css/test_compose_listening.css" />
+
+      <!-- Include chrono-node library for time indicator detection -->
+      <script src="https://cdn.jsdelivr.net/npm/chrono-node@2.6.0/dist/chrono.min.js"></script>
+      <script>
+          // Make sure chrono is available globally
+          if (typeof chrono !== 'undefined') {
+              window.chrono = chrono;
+              console.log("Using global chrono");
+          } else if (typeof chronoNode !== 'undefined') {
+              window.chrono = chronoNode;
+              console.log("Using chronoNode");
+          }
+      </script>
+      <!-- Fallback for chrono if CDN fails -->
+      <script src="/js/chrono-fallback.js"></script>
+      <script src="/js/grammarChecker2.js"></script>
+    </head>
+    <body>
+        <%- include('component/header') %>
+        <h2>Reading - <%=part_name%> <p></p></h2>
+
+        <form method="post" action="/data/save" enctype="multipart/form-data">
+            <div class="quiz-container">
+                <% if (part_name == "Sentences") { %> 
+                    Input text with 1 fill blanks: <p></p>
+                    <textarea name="text" rows="4" cols="100" placeholder="Type the text here" ></textarea> <p></p>         
+
+                    Input options for fill blank: <textarea name="question" rows="4" cols="100" style="display: none;">1</textarea><p></p>
+
+                    <div class="input-container">
+                      <label>a)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>b)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>c)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>d)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    Result: 
+                    <div class="custom-select-container">
+                        <select class="hidden-select" name="result" id="result">
+                          <option value="a" selected>option a</option>
+                          <option value="b">option b</option>
+                          <option value="c">option c</option>
+                          <option value="d">option d</option>
+                        </select>
+                        
+                        <div class="select-selected">
+                          <span class="select-text">option a</span>
+                          <div class="select-arrow"></div>
+                        </div>
+                        
+                        <div class="select-items">
+                          <div class="select-item selected" data-value="a">option a</div>
+                          <div class="select-item" data-value="b">option b</div>
+                          <div class="select-item" data-value="c">option c</div>
+                          <div class="select-item" data-value="d">option d</div>
+                        </div>
+                    </div><br>
+                <% } %>
+
+                <% if (part_name == "Text") { %> 
+                    Input text with 4 fill blanks: <p></p>
+                    <textarea name="text" rows="4" cols="100" placeholder="Type the text here" ></textarea> <p></p>
+                    
+                    Input options for fill blank #1: <textarea name="question" rows="4" cols="100" style="display: none;">1</textarea><p></p>
+                    <div class="input-container">
+                      <label>a)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>b)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>c)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>d)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    Result: 
+                    <div class="custom-select-container">
+                        <select class="hidden-select" name="result" id="result">
+                          <option value="a" selected>option a</option>
+                          <option value="b">option b</option>
+                          <option value="c">option c</option>
+                          <option value="d">option d</option>
+                        </select>
+                        
+                        <div class="select-selected">
+                          <span class="select-text">option a</span>
+                          <div class="select-arrow"></div>
+                        </div>
+                        
+                        <div class="select-items">
+                          <div class="select-item selected" data-value="a">option a</div>
+                          <div class="select-item" data-value="b">option b</div>
+                          <div class="select-item" data-value="c">option c</div>
+                          <div class="select-item" data-value="d">option d</div>
+                        </div>
+                    </div>
+                    <div class="divider-line"></div>
+
+                    Input options for fill blank #2: <textarea name="question" rows="4" cols="100" style="display: none;">2</textarea><p></p>
+                    <div class="input-container">
+                      <label>a)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>b)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>c)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>d)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    Result: 
+                    <div class="custom-select-container">
+                        <select class="hidden-select" name="result" id="result">
+                          <option value="a" selected>option a</option>
+                          <option value="b">option b</option>
+                          <option value="c">option c</option>
+                          <option value="d">option d</option>
+                        </select>
+                        
+                        <div class="select-selected">
+                          <span class="select-text">option a</span>
+                          <div class="select-arrow"></div>
+                        </div>
+                        
+                        <div class="select-items">
+                          <div class="select-item selected" data-value="a">option a</div>
+                          <div class="select-item" data-value="b">option b</div>
+                          <div class="select-item" data-value="c">option c</div>
+                          <div class="select-item" data-value="d">option d</div>
+                        </div>
+                    </div><br>
+                    <div class="divider-line"></div>
+                    <div class="input-container">
+                      <label>a)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>b)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>c)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>d)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    Result: 
+                    <div class="custom-select-container">
+                        <select class="hidden-select" name="result" id="result">
+                          <option value="a" selected>option a</option>
+                          <option value="b">option b</option>
+                          <option value="c">option c</option>
+                          <option value="d">option d</option>
+                        </select>
+                        
+                        <div class="select-selected">
+                          <span class="select-text">option a</span>
+                          <div class="select-arrow"></div>
+                        </div>
+                        
+                        <div class="select-items">
+                          <div class="select-item selected" data-value="a">option a</div>
+                          <div class="select-item" data-value="b">option b</div>
+                          <div class="select-item" data-value="c">option c</div>
+                          <div class="select-item" data-value="d">option d</div>
+                        </div>
+                    </div><br>
+                    <div class="divider-line"></div>
+                    Input options for fill blank #4: <textarea name="question" rows="4" cols="100" style="display: none;">4</textarea><p></p>
+                    <div class="input-container">
+                      <label>a)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>b)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>c)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>d)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    Result: 
+                    <div class="custom-select-container">
+                        <select class="hidden-select" name="result" id="result">
+                          <option value="a" selected>option a</option>
+                          <option value="b">option b</option>
+                          <option value="c">option c</option>
+                          <option value="d">option d</option>
+                        </select>
+                        
+                        <div class="select-selected">
+                          <span class="select-text">option a</span>
+                          <div class="select-arrow"></div>
+                        </div>
+                        
+                        <div class="select-items">
+                          <div class="select-item selected" data-value="a">option a</div>
+                          <div class="select-item" data-value="b">option b</div>
+                          <div class="select-item" data-value="c">option c</div>
+                          <div class="select-item" data-value="d">option d</div>
+                        </div>
+                    </div><br>
+                <% } %>
+
+                <% if (part_name == "Comprehension") { %> 
+                    Input Text with many paragraphs: <p></p>
+                    <textarea name="text" rows="4" cols="100" placeholder="Type the text here" ></textarea> <p></p>
+
+                    Input Question 1: <p></p>
+                    <textarea name="question" rows="4" cols="100" placeholder="Type the question here" ></textarea> <p></p>
+                    Input options: <p></p>
+                    <div class="input-container">
+                      <label>a)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>b)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>c)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>d)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    Result: 
+                    <div class="custom-select-container">
+                        <select class="hidden-select" name="result" id="result">
+                          <option value="a" selected>option a</option>
+                          <option value="b">option b</option>
+                          <option value="c">option c</option>
+                          <option value="d">option d</option>
+                        </select>
+                        
+                        <div class="select-selected">
+                          <span class="select-text">option a</span>
+                          <div class="select-arrow"></div>
+                        </div>
+                        
+                        <div class="select-items">
+                          <div class="select-item selected" data-value="a">option a</div>
+                          <div class="select-item" data-value="b">option b</div>
+                          <div class="select-item" data-value="c">option c</div>
+                          <div class="select-item" data-value="d">option d</div>
+                        </div>
+                    </div><br>
+                    Input Question 2: <p></p>
+                    <textarea name="question" rows="4" cols="100" placeholder="Type the question here" ></textarea> <p></p>
+                    Input options: <p></p>
+                    <div class="input-container">
+                      <label>a)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>b)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>c)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    <div class="input-container">
+                      <label>d)</label>
+                      <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                    </div>
+                    Result: 
+                    <div class="custom-select-container">
+                        <select class="hidden-select" name="result" id="result">
+                          <option value="a" selected>option a</option>
+                          <option value="b">option b</option>
+                          <option value="c">option c</option>
+                          <option value="d">option d</option>
+                        </select>
+                        
+                        <div class="select-selected">
+                          <span class="select-text">option a</span>
+                          <div class="select-arrow"></div>
+                        </div>
+                        
+                        <div class="select-items">
+                          <div class="select-item selected" data-value="a">option a</div>
+                          <div class="select-item" data-value="b">option b</div>
+                          <div class="select-item" data-value="c">option c</div>
+                          <div class="select-item" data-value="d">option d</div>
+                        </div>
+                    </div><br>
+                <% } %>
+            </div>
+        <div class="btn-container">
+            <input type="submit" class="btn result-btn" value="submit"/>
+            <button type="button" class="btn end-btn">
+                <a href="/data/list/<%=skill_name%>/<%=part_name%>">Cancel</a>
+            </button>
+        </div>
+        <input type="hidden" name="skill" value="<%=skill_name%>">
+        <input type="hidden" name="part" value="<%=part_name%>">
+        </form>
+
+  <script>
+  //************* Script custom select *************//
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectContainer = document.querySelector('.custom-select-container');
+        const selectSelected = document.querySelector('.select-selected');
+        const selectText = document.querySelector('.select-text');
+        const selectItems = document.querySelector('.select-items');
+        const selectOptions = document.querySelectorAll('.select-item');
+        const hiddenSelect = document.querySelector('.hidden-select');
+        
+        // Toggle dropdown on click
+        selectSelected.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+            selectItems.classList.toggle('show');
+            
+            // Add subtle entrance animation for each option
+            selectOptions.forEach((option, index) => {
+            option.style.animation = `fadeIn 0.2s ease forwards ${index * 0.05}s`;
+            });
+        });
+        
+        // Select option
+        selectOptions.forEach(item => {
+            item.addEventListener('click', function() {
+            // Update hidden select value
+            hiddenSelect.value = this.getAttribute('data-value');
+            
+            // Update selected text only (not the arrow)
+            selectText.textContent = this.textContent;
+            
+            // Update selected class
+            document.querySelector('.select-item.selected').classList.remove('selected');
+            this.classList.add('selected');
+            
+            // Close dropdown
+            selectSelected.classList.remove('active');
+            selectItems.classList.remove('show');
+            
+            // Trigger change event on the original select
+            const event = new Event('change');
+            hiddenSelect.dispatchEvent(event);
+            });
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            selectSelected.classList.remove('active');
+            selectItems.classList.remove('show');
+        });
+        
+        // Prevent closing when clicking inside the dropdown
+        selectItems.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    });    
+    //************* End script custom select *************//
+  </script>
+</body>

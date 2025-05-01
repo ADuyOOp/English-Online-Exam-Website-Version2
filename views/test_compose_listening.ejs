@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+  <head>
+    <title>Test Compose</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/list.css" />
+    <link rel="stylesheet" href="/css/test_compose_listening.css" />
+
+    <!-- Include chrono-node library for time indicator detection -->
+    <script src="https://cdn.jsdelivr.net/npm/chrono-node@2.6.0/dist/chrono.min.js"></script>
+    <script>
+      // Make sure chrono is available globally
+      if (typeof chrono !== "undefined") {
+        window.chrono = chrono;
+        console.log("Using global chrono");
+      } else if (typeof chronoNode !== "undefined") {
+        window.chrono = chronoNode;
+        console.log("Using chronoNode");
+      }
+    </script>
+    <!-- Fallback for chrono if CDN fails -->
+    <script src="/js/chrono-fallback.js"></script>
+    <script src="/js/grammarChecker2.js"></script>
+  </head>
+  <body>
+    <%- include('component/header') %>
+    <h2>Listening - <%=part_name%> <p></p></h2>
+
+    <form method="post" action="/data/save" enctype="multipart/form-data">
+      <div class="quiz-container">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          Select a file audio to upload:
+          <label for="audiofile" class="add-file-button">
+            <svg
+              aria-hidden="true"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-width="2"
+                stroke="#fffffff"
+                        d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        ></path>
+                        <path
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        stroke-width="2"
+                        stroke="#fffffff"
+                        d="M17 15V18M17 21V18M17 18H14M17 18H20"
+                        ></path>
+                    </svg>
+                    ADD FILE
+                    </label>
+                </div>
+                <input type="file" id="audiofile" name="audiofile" accept="audio/*" style="display: none;" onchange="audio_load()">                    
+                <p></p>
+                    <div class="audio-player">
+                        <audio id="audio" controls name="audio" style="display: none;">
+                            <source src="" type="audio/ogg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <button id="playPauseBtn" type="button" class="audio-button play-pause-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7b5c">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </button>
+                        <div id="timeDisplay" class="time-display">00:00 / 00:00</div>
+                
+                        <div id="progressBarContainer" class="progress-container">
+                            <div id="progressBar" class="progress-bar"></div>
+                        </div>
+                        <button id="volumeBtn" type="button" class="audio-button">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#666">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                            </svg>
+                        </button>
+                  </div> 
+                <p></p>
+                Input Script for audio: <br>
+                    <textarea name="text" rows="4" cols="100" placeholder="This is the transcript for audio"></textarea> <p></p>
+
+                <% if (part_name == "Photographs") { %>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        Select a file image to upload:
+                        <label for="imagefile" class="add-file-button">
+                        <svg
+                            aria-hidden="true"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                            stroke-width="2"
+                            stroke="#fffffff"
+                            d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125"
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                            ></path>
+                            <path
+                            stroke-linejoin="round"
+                            stroke-linecap="round"
+                            stroke-width="2"
+                            stroke="#fffffff"
+                            d="M17 15V18M17 21V18M17 18H14M17 18H20"
+                            ></path>
+                        </svg>
+                        ADD FILE
+                        </label>
+                    </div>
+                    <input type="file" id="imagefile" name="imagefile" accept="image/*" style="display: none;" onchange="image_load()"><br>
+                    <p></p>    
+                    <div class="image-container">
+                        <img src="/assets/Placeholder-_-Glossary.svg" name="image" id="image" alt="Placeholder Image" width="500" height="500">
+                    </div>
+    
+                    <p></p>
+                    Input question: <p></p>
+                    <textarea id="question" name="question" rows="4" cols="100" placeholder="Type question here"></textarea> <p></p>
+                    Input options: <p></p>
+                    <div class="input-container">
+                        <label>a)</label>
+                        <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                      </div>
+                      <div class="input-container">
+                        <label>b)</label>
+                        <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                      </div>
+                      <div class="input-container">
+                        <label>c)</label>
+                        <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                      </div>
+                      <div class="input-container">
+                        <label>d)</label>
+                        <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                      </div>
+                    Result:
+                    <div class="custom-select-container">
+                        <select class="hidden-select" name="result" id="result">
+                          <option value="a" selected>option a</option>
+                          <option value="b">option b</option>
+                          <option value="c">option c</option>
+                          <option value="d">option d</option>
+                        </select>
+                        
+                        <div class="select-selected">
+                          <span class="select-text">option a</span>
+                          <div class="select-arrow"></div>
+                        </div>
+                        
+                        <div class="select-items">
+                          <div class="select-item selected" data-value="a">option a</div>
+                          <div class="select-item" data-value="b">option b</div>
+                          <div class="select-item" data-value="c">option c</div>
+                          <div class="select-item" data-value="d">option d</div>
+                        </div>
+                    </div>
+                <% } %>
+
+            <% if(part_name == "Q&A") { %>
+                Input question: <p></p>
+                <textarea name="question" rows="4" cols="100" placeholder="Type question here"></textarea> <p></p>
+                Input options: <p></p>
+                <div class="input-container">
+                    <label>a)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>b)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>c)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>               
+                Result: 
+                <div class="custom-select-container">
+                    <select class="hidden-select" name="result" id="result">
+                      <option value="a" selected>option a</option>
+                      <option value="b">option b</option>
+                      <option value="c">option c</option>
+                    </select>
+                    
+                    <div class="select-selected">
+                      <span class="select-text">option a</span>
+                      <div class="select-arrow"></div>
+                    </div>
+                    
+                    <div class="select-items">
+                      <div class="select-item selected" data-value="a">option a</div>
+                      <div class="select-item" data-value="b">option b</div>
+                      <div class="select-item" data-value="c">option c</div>
+                    </div>
+                </div>
+            <% } %>
+            
+
+            <% if(part_name == "Conversations") { %> 
+                Input question #1: <p></p>
+                <textarea name="question" rows="4" cols="100" placeholder="Type question here"></textarea> <p></p>
+                Input options: <p></p>
+                <div class="input-container">
+                    <label>a)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>b)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>c)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>d)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>                
+                Result: 
+                <div class="custom-select-container">
+                    <select class="hidden-select" name="result" id="result">
+                      <option value="a" selected>option a</option>
+                      <option value="b">option b</option>
+                      <option value="c">option c</option>
+                      <option value="d">option d</option>
+                    </select>
+                    
+                    <div class="select-selected">
+                      <span class="select-text">option a</span>
+                      <div class="select-arrow"></div>
+                    </div>
+                    
+                    <div class="select-items">
+                      <div class="select-item selected" data-value="a">option a</div>
+                      <div class="select-item" data-value="b">option b</div>
+                      <div class="select-item" data-value="c">option c</div>
+                      <div class="select-item" data-value="d">option d</div>
+                    </div>
+                </div>
+
+                Input question #2: <p></p>
+                <textarea name="question" rows="4" cols="100" placeholder="Type question here"></textarea> <p></p>
+                Input options: <p></p>
+                <div class="input-container">
+                    <label>a)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>b)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>c)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>d)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>                
+                Result: 
+                <div class="custom-select-container">
+                    <select class="hidden-select" name="result" id="result">
+                      <option value="a" selected>option a</option>
+                      <option value="b">option b</option>
+                      <option value="c">option c</option>
+                      <option value="d">option d</option>
+                    </select>
+                    
+                    <div class="select-selected">
+                      <span class="select-text">option a</span>
+                      <div class="select-arrow"></div>
+                    </div>
+                    
+                    <div class="select-items">
+                      <div class="select-item selected" data-value="a">option a</div>
+                      <div class="select-item" data-value="b">option b</div>
+                      <div class="select-item" data-value="c">option c</div>
+                      <div class="select-item" data-value="d">option d</div>
+                    </div>
+                </div>
+
+                Input question #3: <p></p>
+                <textarea name="question" rows="4" cols="100" placeholder="Type question here"></textarea> <p></p>
+                Input options: <p></p>
+                <div class="input-container">
+                    <label>a)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>b)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>c)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>d)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>                
+                Result: 
+                <div class="custom-select-container">
+                    <select class="hidden-select" name="result" id="result">
+                      <option value="a" selected>option a</option>
+                      <option value="b">option b</option>
+                      <option value="c">option c</option>
+                      <option value="d">option d</option>
+                    </select>
+                    
+                    <div class="select-selected">
+                      <span class="select-text">option a</span>
+                      <div class="select-arrow"></div>
+                    </div>
+                    
+                    <div class="select-items">
+                      <div class="select-item selected" data-value="a">option a</div>
+                      <div class="select-item" data-value="b">option b</div>
+                      <div class="select-item" data-value="c">option c</div>
+                      <div class="select-item" data-value="d">option d</div>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if (part_name == "Talks") { %> 
+                Input question #1: <p></p>
+                <textarea name="question" rows="4" cols="100" placeholder="Type question here"></textarea> <p></p>
+                Input options: <p></p>
+                <div class="input-container">
+                    <label>a)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>b)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>c)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>d)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>                
+                Result: 
+                <div class="custom-select-container">
+                    <select class="hidden-select" name="result" id="result">
+                      <option value="a" selected>option a</option>
+                      <option value="b">option b</option>
+                      <option value="c">option c</option>
+                      <option value="d">option d</option>
+                    </select>
+                    
+                    <div class="select-selected">
+                      <span class="select-text">option a</span>
+                      <div class="select-arrow"></div>
+                    </div>
+                    
+                    <div class="select-items">
+                      <div class="select-item selected" data-value="a">option a</div>
+                      <div class="select-item" data-value="b">option b</div>
+                      <div class="select-item" data-value="c">option c</div>
+                      <div class="select-item" data-value="d">option d</div>
+                    </div>
+                </div>
+
+                Input question #2: <p></p>
+                <textarea name="question" rows="4" cols="100" placeholder="Type question here"></textarea> <p></p>
+                Input options: <p></p>
+                <div class="input-container">
+                    <label>a)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>b)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>c)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>d)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>                
+                Result: 
+                <div class="custom-select-container">
+                    <select class="hidden-select" name="result" id="result">
+                      <option value="a" selected>option a</option>
+                      <option value="b">option b</option>
+                      <option value="c">option c</option>
+                      <option value="d">option d</option>
+                    </select>
+                    
+                    <div class="select-selected">
+                      <span class="select-text">option a</span>
+                      <div class="select-arrow"></div>
+                    </div>
+                    
+                    <div class="select-items">
+                      <div class="select-item selected" data-value="a">option a</div>
+                      <div class="select-item" data-value="b">option b</div>
+                      <div class="select-item" data-value="c">option c</div>
+                      <div class="select-item" data-value="d">option d</div>
+                    </div>
+                </div>
+
+                Input question #3: <p></p>
+                <textarea name="question" rows="4" cols="100" placeholder="Type question here"></textarea> <p></p>
+                Input options: <p></p>
+                <div class="input-container">
+                    <label>a)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>b)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>c)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>
+                  <div class="input-container">
+                    <label>d)</label>
+                    <input type="text" name="opt" size="100" placeholder="Type the option content here"><p></p>
+                  </div>                
+                Result: 
+                <div class="custom-select-container">
+                    <select class="hidden-select" name="result" id="result">
+                      <option value="a" selected>option a</option>
+                      <option value="b">option b</option>
+                      <option value="c">option c</option>
+                      <option value="d">option d</option>
+                    </select>
+                    
+                    <div class="select-selected">
+                      <span class="select-text">option a</span>
+                      <div class="select-arrow"></div>
+                    </div>
+                    
+                    <div class="select-items">
+                      <div class="select-item selected" data-value="a">option a</div>
+                      <div class="select-item" data-value="b">option b</div>
+                      <div class="select-item" data-value="c">option c</div>
+                      <div class="select-item" data-value="d">option d</div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <div class="btn-container">
+            <input type="submit" class="btn result-btn" value="submit"/>
+            <button type="button" class="btn end-btn">
+                <a href="/data/list/<%=skill_name%>/<%=part_name%>">Cancel</a>
+            </button>
+        </div>
+        <input type="hidden" name="skill" value="<%=skill_name%>">
+        <input type="hidden" name="part" value="<%=part_name%>">
+        </form>
+    </body>
+
+    <script>
+        function audio_load(){
+            console.log("audio")
+            const audio = document.getElementById("audio");
+            const audiofile = document.getElementById("audiofile");
+            const [file] = audiofile.files;
+            if (file) {
+                audio.src = URL.createObjectURL(file);
+            }
+            checkFiles();
+        }
+    
+        function image_load(){
+            console.log("image")
+            const image = document.getElementById("image");
+            const imagefile = document.getElementById("imagefile");
+            const [file] = imagefile.files;
+            if (file) {
+                image.src = URL.createObjectURL(file);
+            }
+            else {
+                image.src = "/assets/Placeholder-_-Glossary.svg";
+            }
+            checkFiles();
+        }
+
+        //*****Check if all required fields are filled before enabling submit button*****//
+        function checkFiles() {
+            const audioFile = document.getElementById("audiofile").files.length > 0;
+            const imageInput = document.getElementById("imagefile");
+            const imageFile = imageInput ? imageInput.files.length > 0 : true; 
+
+            // Check editable divs instead of original inputs
+            const questionField = document.querySelector("[data-original-input='question']") ? 
+                document.querySelector("[data-original-input='question']").innerText.trim().length > 0 : 
+                true;
+            
+            // Check all option editable divs
+            const optionFields = document.querySelectorAll("[data-original-input='opt']");
+            const allOptionsFilled = optionFields.length > 0 ? 
+                Array.from(optionFields).every(opt => opt.innerText.trim().length > 0) : 
+                true;
+
+            const submitButton = document.querySelector("input[type='submit']");
+            submitButton.disabled = !(audioFile && imageFile && questionField && allOptionsFilled);
+        }
+
+        // Ensure event listeners are added AFTER the DOM is fully loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            checkFiles();
+            document.getElementById("audiofile").addEventListener("change", checkFiles);
+            if (document.getElementById("imagefile")) {
+                document.getElementById("imagefile").addEventListener("change", checkFiles);
+            }
+
+            // Update to listen to editable divs instead of original inputs
+            const questionEditable = document.querySelector("[data-original-input='question']");
+            if (questionEditable) {
+                questionEditable.addEventListener("input", checkFiles);
+            }
+            
+            const optionEditables = document.querySelectorAll("[data-original-input='opt']");
+            optionEditables.forEach(editable => {
+                editable.addEventListener("input", checkFiles);
+            });
+        });
+
+
+        /***** Script for audio bar *****/
+        document.addEventListener('DOMContentLoaded', function () {
+        const quizContainers = document.querySelectorAll('.quiz-container');
+
+        quizContainers.forEach((container) => {
+            const audioElement = container.querySelector('#audio');
+            const playPauseBtn = container.querySelector('#playPauseBtn');
+            const timeDisplay = container.querySelector('#timeDisplay');
+            const progressBarContainer = container.querySelector('#progressBarContainer');
+            const progressBar = container.querySelector('#progressBar');
+            const volumeBtn = container.querySelector('#volumeBtn');
+
+            let isDragging = false;
+
+            // Event Listeners
+            playPauseBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                togglePlayPause();
+            });
+
+            volumeBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                toggleMute();
+            });
+
+            audioElement.addEventListener('timeupdate', updateProgress);
+
+            // Progress Bar Dragging
+            progressBarContainer.addEventListener('mousedown', (event) => {
+                isDragging = true;
+                updateAudioTime(event);
+            });
+
+            document.addEventListener('mousemove', (event) => {
+                if (isDragging) {
+                    updateAudioTime(event);
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                }
+            });
+
+            // Toggle Play and Pause
+            function togglePlayPause() {
+                if (audioElement.paused) {
+                    audioElement.play();
+                    playPauseBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7b5c"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                } else {
+                    audioElement.pause();
+                    playPauseBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7b5c"><path d="M8 5v14l11-7z"/></svg>';
+                }
+            }
+
+            // Toggle Mute
+            function toggleMute() {
+                audioElement.muted = !audioElement.muted;
+                volumeBtn.innerHTML = audioElement.muted
+                    ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="#666"><path d="M3 9v6h4l5 5V4L7 9H3z M16 12l4 4m0-4l-4-4"/></svg>'
+                    : '<svg width="24" height="24" viewBox="0 0 24 24" fill="#666"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>';
+            }
+
+            // Update Progress Bar
+            function updateProgress() {
+                if (!isDragging) {
+                    const currentTime = formatTime(audioElement.currentTime);
+                    const duration = formatTime(audioElement.duration || 0);
+                    timeDisplay.textContent = `${currentTime} / ${duration}`;
+
+                    const percent = (audioElement.currentTime / audioElement.duration) * 100;
+                    progressBar.style.width = `${percent}%`;
+                }
+            }
+
+            // Update Audio Time on Drag
+            function updateAudioTime(event) {
+                const rect = progressBarContainer.getBoundingClientRect();
+                const offsetX = event.clientX - rect.left;
+                const percent = Math.min(Math.max(offsetX / rect.width, 0), 1);
+
+                audioElement.currentTime = percent * audioElement.duration;
+                progressBar.style.width = `${percent * 100}%`;
+
+                const currentTime = formatTime(audioElement.currentTime);
+                const duration = formatTime(audioElement.duration || 0);
+                timeDisplay.textContent = `${currentTime} / ${duration}`;
+            }
+
+            // Format Time Display
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = Math.floor(seconds % 60);
+                return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+                }
+            });
+        }); /***** End script for audio bar *****/ 
+
+        //************* Script custom select *************//
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectContainer = document.querySelector('.custom-select-container');
+            const selectSelected = document.querySelector('.select-selected');
+            const selectText = document.querySelector('.select-text');
+            const selectItems = document.querySelector('.select-items');
+            const selectOptions = document.querySelectorAll('.select-item');
+            const hiddenSelect = document.querySelector('.hidden-select');
+            
+            // Toggle dropdown on click
+            selectSelected.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+                selectItems.classList.toggle('show');
+                
+                // Add subtle entrance animation for each option
+                selectOptions.forEach((option, index) => {
+                option.style.animation = `fadeIn 0.2s ease forwards ${index * 0.05}s`;
+                });
+            });
+            
+            // Select option
+            selectOptions.forEach(item => {
+                item.addEventListener('click', function() {
+                // Update hidden select value
+                hiddenSelect.value = this.getAttribute('data-value');
+                
+                // Update selected text only (not the arrow)
+                selectText.textContent = this.textContent;
+                
+                // Update selected class
+                document.querySelector('.select-item.selected').classList.remove('selected');
+                this.classList.add('selected');
+                
+                // Close dropdown
+                selectSelected.classList.remove('active');
+                selectItems.classList.remove('show');
+                
+                // Trigger change event on the original select
+                const event = new Event('change');
+                hiddenSelect.dispatchEvent(event);
+                });
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                selectSelected.classList.remove('active');
+                selectItems.classList.remove('show');
+            });
+            
+            // Prevent closing when clicking inside the dropdown
+            selectItems.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });    
+    </script>   

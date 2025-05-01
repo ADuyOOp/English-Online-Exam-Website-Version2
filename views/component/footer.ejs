@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .footer {
+            padding: 40px 80px;
+            font-family: Arial, sans-serif;
+            background-color: #393e58;
+            background-image: url('/assets/bg-footer.webp');
+            background-position: bottom center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-placeholder {
+            width: 150px;
+            height: 60px;
+            border: 2px dashed #FF7F63;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .footer-section {
+            margin-right: 40px;
+        }
+
+        .footer-section h3 {
+            color: #fff;
+            font-size: 30px;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #FF7F63;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #FF7F63;
+        }
+
+        .social-icons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #FF7F63;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .social-icon:hover {
+            background-color: #e66e54;
+        }
+
+        .trademark {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 14px;
+            text-align: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+            /* background-color: rgba(30, 41, 89, 0.9); */
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .logo2 {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            text-decoration: none;
+        }
+
+        .logo2 img {
+            height: 4rem;
+            width: 10rem;
+        }
+    </style>
+</head>
+<body>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="logo2">
+                    <img src="/assets/logo-text.png" alt="EstudyMe Logo">
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Privacy</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#FFFFFF" d="M22 5.5V18.5C22 19.33 21.33 20 20.5 20H3.5C2.67 20 2 19.33 2 18.5V5.5C2 4.67 2.67 4 3.5 4H20.5C21.33 4 22 4.67 22 5.5ZM20 6.5L12 11.5L4 6.5V18H20V6.5Z"/>
+                        </svg>                          
+                    </a>
+
+                    <a href="#" class="social-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#FFFFFF" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.656 9.128 8.437 9.88v-7H7.898V12h2.539V9.797c0-2.507 1.492-3.89 3.775-3.89 1.096 0 2.238.195 2.238.195v2.469h-1.26c-1.242 0-1.628.776-1.628 1.57V12h2.774l-.443 2.88h-2.331v7C18.344 21.128 22 16.991 22 12Z"/>
+                        </svg>                          
+                    </a>
+
+                    <a href="#" class="social-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#FFFFFF" d="M21.6 7.2C21.4 6.3 20.7 5.6 19.8 5.4C18.2 5 12 5 12 5C12 5 5.8 5 4.2 5.4C3.3 5.6 2.6 6.3 2.4 7.2C2 8.8 2 12 2 12C2 12 2 15.2 2.4 16.8C2.6 17.7 3.3 18.4 4.2 18.6C5.8 19 12 19 12 19C12 19 18.2 19 19.8 18.6C20.7 18.4 21.4 17.7 21.6 16.8C22 15.2 22 12 22 12C22 12 22 8.8 21.6 7.2ZM10 15.5V8.5L16 12L10 15.5Z"/>
+                        </svg>                          
+                    </a>
+
+                    <a href="#" class="social-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#FFFFFF" d="M12 7C9.79 7 8 8.79 8 11C8 13.21 9.79 15 12 15C14.21 15 16 13.21 16 11C16 8.79 14.21 7 12 7ZM12 13.5C10.62 13.5 9.5 12.38 9.5 11C9.5 9.62 10.62 8.5 12 8.5C13.38 8.5 14.5 9.62 14.5 11C14.5 12.38 13.38 13.5 12 13.5ZM19 7.5C18.45 7.5 18 7.95 18 8.5C18 9.05 18.45 9.5 19 9.5C19.55 9.5 20 9.05 20 8.5C20 7.95 19.55 7.5 19 7.5ZM22 6C22 4.34 20.66 3 19 3H5C3.34 3 2 4.34 2 6V16C2 17.66 3.34 19 5 19H19C20.66 19 22 17.66 22 16V6ZM20 16C20 16.55 19.55 17 19 17H5C4.45 17 4 16.55 4 16V6C4 5.45 4.45 5 5 5H19C19.55 5 20 5.45 20 6V16Z"/>
+                        </svg>                          
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="trademark">
+            TOEIC® is a registered trademark of Educational Testing Service (ETS). This web is not affiliated with or endorsed by Educational Testing Service.
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<html>
+    <head>
+    <title>Exam Result</title>
+    <style type="text/css">
+        input[type=radio]#Green {
+             accent-color: green;
+         }      
+        input[type=radio]#Red {
+             accent-color: red;
+        }         
+        .hide {
+            display: none; 
+            border:  solid #ccc; 
+            width: 300px;
+            height: 150px;
+        } 
+        .container {
+            /* border: 1px solid silver; */
+            flex-wrap: wrap;
+            display: flex;
+        }
+        .item {
+            /* border: 3px solid #73AD21; */
+            width: 49%;
+        }
+     </style> 
+
+    <script>
+        function toggleIframe(did, bid) {
+            // console.log("tid= " + tid)
+            var iframe = document.getElementById(did);
+            // console.log("ifram= " + iframe.id)
+
+            if (iframe.style.display === "block") {
+                iframe.style.display = "none";       //hide 
+            } else {
+                iframe.style.display = "block";      //show
+            }
+
+            var bt = document.getElementById(bid);
+            // console.log("bid= " + bid)
+            // console.log("b= " + bt.id)
+            // console.log("b= " + bt.textContent)
+
+            if (bt.textContent === "Show Script") {
+                bt.textContent = "Hide Script";       //hide 
+            } else {
+                bt.textContent = "Show Script";      //show       
+            }
+    }
+
+    </script>
+    </head>
+    <body>
+        <h1>Exam <%=Exam.Examid%></h1>
+        <h2>Review</h2>
+        <% var skillID = Exam.Skillid%>
+        <p></p>
+
+        <!-- /**********************************************************************************/ -->
+        <!-- <%/***** Parts point to array of Part *****/%> -->
+        <% let Parts = Exam.ArrPart %> 
+
+        <!-- {{/*****  listing array of parts *****/}} -->
+        <% for (const Part of Parts) { %>
+            <p id="<%= Part.Partname %>"></p>
+            Part name: <b><%= Part.Partname %></b>
+            <% var pName = Part.Partname %>
+            <p></p>
+
+            <!-- <%/***** Tests point to array of Test *****/%> -->
+            <% let Tests = Part.ArrTest %>                  
+            <p></p>
+
+            <!-- {{/*****  listing array of tests *****/}} -->
+            <% for (var Test of Tests) { %>
+                Test : <b><%= Test.Ordertest %></b>
+                <p></p>
+
+                <!-- {{/*****  If is listening exam *****/}} -->
+                <% if (skillID == 1) { %>
+                    Audio: <%= Test.Audio %><br>
+                    <!-- <audio controls autoplay name="audio"> -->
+                    <audio controls name="audio">
+                        <source src="/audio/<%=Test.Audio%>" type="audio/ogg">
+                        Your browser does not support the audio element.
+                        </audio>
+
+                    <button id="b<%=Test.Testid%>" onclick="toggleIframe('d<%=Test.Testid%>','b<%=Test.Testid%>')">Show Script</button>
+                    <div class="hide" id="d<%=Test.Testid%>">
+                        <embed src="/text/<%=Test.Text%>">
+                    </div>
+                    <p></p>
+
+                    <!-- {{/*****  If is part Photographs *****/}} -->
+                    <% if (pName == "Photographs") { %>
+                        Image: <%= Test.Image %><br>
+                        <img src= "/image/<%=Test.Image%>" alt="Submit" width="200" height="200">  
+                            <p></p>
+                    <% } %>
+                <% } %>     <% /** end if */ %>
+
+                
+                
+                <div class="container">  
+                    <!-- <%/***** Questions point to array of Question *****/%> -->
+                    <% let Questions = Test.ArrQues %>             
+
+                    <!-- {{/*****  listing array of questions *****/}} -->
+                    <% for (var Question of Questions) { %>    
+                        <div class="item">  
+        
+                        Question : <b><%= Question.Orderquestion %></b> <p></p>
+                            <% var soq = Question.StrOrderquestion %>
+                            <% var sqid = Question.StrQuestionid %>
+        
+                            <!-- {{/*****  Display status of question with color *****/}}
+                            {{/*****  Must declare variables before used -  *****/}} -->
+                            <% var result = Question.Result %>
+                            <% var answer = Question.Answer %>
+                            <% var flag = false %>
+                            <% if (Question.Result == Question.Answer) { %>
+                                <% flag = true %>                
+                            <% } %>
+        
+                                <% var olet = "" %>
+                                <% var olay = "" %>
+        
+                                <!-- <%/***** Options point to array of Option *****/%> -->
+                                <% var Options = Question.ArrOpt %>         
+
+                                <!-- {{/*****  listing array of options *****/}} -->
+                                <% for (var index=0; index<Options.length; index++) { %>
+                                    <% if (index == 0) { olet = "a"} %>
+                                    <% if (index == 1) { olet = "b"} %>
+                                    <% if (index == 2) { olet = "c"} %>
+                                    <% if (index == 3) { olet = "d"} %>                       
+        
+                                    <!-- {{/*****  If the selected question is right  *****/}} -->
+                                    <% if (flag && olet==result) {%>
+                                    <input type="radio" name="<%=soq%>" value="<%=Options[index]%>" id="Green" checked />(<%=olet%>) <%=Options[index]%>    
+                                    
+                                    <% }else{ %>
+
+                                        <!-- {{/*****  If the selected question is wrong  *****/}} -->
+                                        <% if (!flag && olet==answer) { %>
+                                        <input type="radio" name="<%=soq%>" value="<%=Options[index]%>" id="Red" checked />(<%=olet%>) <%=Options[index]%>  
+                                        
+                                        <% }else{ %>                                    
+                                            <!-- {{/*****  If the question is not selected  *****/}} -->
+                                            <input type="radio" name="<%=soq%>" value="<%=Options[index]%>" disabled/>(<%=olet%>) <%=Options[index]%>                                                                                                              
+                                        <% } %>
+                                    <% } %>        
+
+                                    <input type="hidden" name="sqid" value="<%=sqid%>"/>  
+                                    <p></p>
+                                <% } %>         <%/** ArrOpt */ %>                                                                   
+                        </div> 
+                    <% } %>         <% /** ArrQues */ %>
+                </div> 
+                
+            <% } %>  <% /** ArrTest */ %>
+
+        <% } %>     <% /** ArrPart */ %>                        
+
+        <!-- /****************************************************************************/ -->
+    </body>    
+</html>
+

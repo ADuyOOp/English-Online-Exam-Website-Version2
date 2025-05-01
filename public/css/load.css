@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8e0d6;
+    color: #333;
+    line-height: 1.6;
+}
+/* Main content styles */
+.main-content {
+    max-width: 42rem;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+.test-card {
+    background-image: linear-gradient(to bottom, #FF8159 0%, #FF8159 10%, white 100%);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: 1px solid #ffe6df;
+}
+.card-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+.illustration {
+    width: 100%;
+    height: 16rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.illustration img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.test-info {
+    text-align: center;
+}
+.test-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.test-description {
+    color: #666;
+}
+.start-button {
+    background-color: #ff4d1a;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.15s ease-in-out;
+    text-decoration: none;
+}
+.start-button:hover {
+    background-color: #ff2600;
+    text-decoration: none;
+}
+
+.start-button-link {
+    text-decoration: none;
+}
+.start-icon {
+    margin-right: 0.5rem;
+}
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+}
+.nav-item {
+    text-decoration: none;
+    color: #1a1a1a;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+    color: #FF7F50;
+}
+
+.nav-item.active {
+    color: #FF7F50;
+}

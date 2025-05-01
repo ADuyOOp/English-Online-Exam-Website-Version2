@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+    <head>
+    <title>Manage Exam</title>
+    <style>
+        td {text-align: center;}
+        p {text-align: right;}
+    </style>
+    </head>
+    <body> 
+        <%- include('component/header') %>
+        <% if (Username != "") { %>     
+            <p>user: <b><%=Username%></b></p>           
+            <p><a href="/manage/logout">Logout</a></p>
+            <% } %>
+          
+        <h2>Manage Exam</h2>
+        <table border="1">
+            <tr>
+                <th>Exam ID</th>
+                <th>Questions</th>
+                <th>Duration</th>
+            </tr>
+
+            <% for (Exam of ArrExam) {%>
+            <tr>
+                <td><%=Exam.Examid%></td> 
+                <td><%=Exam.Tquestion%></td>
+                <td><%=Exam.Duration%></td>
+                <td><a href="/exam/remove/<%=Exam.Examid%>">Remove</a></td>
+            </tr>
+            <% } %>
+        </table>
+        <p></p>
+        <form method="post" action="/exam/create">
+            <input type="submit" value="create">
+        </form>
+        <p></p>
+        <a href="/">Home</a>
+    </body>
+
+</html>
+

@@ -1,0 +1,33 @@
+<html>
+<head>
+  <meta charset="UTF-8" />
+</head>
+<body>
+  <p><%=User%>
+  </p>  
+<div>
+  <form method="POST">           
+      <p>Edit User.</p>
+      <label>Userid: </label><input name="id" type="text" value="<%=User.Userid%>" readonly /><p>
+
+      <label>Name: </label><input name="name" type="text" value="<%=User.Name%>"  />
+      <p>
+      <label>Password: </label><input name="pass" type="password" value="<%=User.Pass%>" />
+      <p>
+      <label>Role: </label>
+      <select name="role">
+        <% if (User.Role == "staff") { %>
+          <option value="staff" selected>staff</option>
+          <option value="admin">admin</option>
+        <% }else{ %>
+          <option value="admin" selected>admin</option>
+          <option value="staff">staff</option>
+        <% } %>
+    </select>
+
+      <p>  
+      <input type="submit" value="Update" formaction="/user/update/<%=User.Userid%>"/>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% let skillID = Exam.Skillid %>
+        <% if (skillID == 1) { %>
+            <title>Listening Exam No: <%= Exam.Examid %></title>
+        <% } else { if (skillID == 2) {%>
+            <title>Reading Exam No: <%= Exam.Examid %></title>
+            <% } %>
+        <% } %>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/list.css">
+    </head>
+    <body>
+        <%- include('component/header') %>
+
+        <div class="timer">
+            <svg class="clock-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span id="timer-display"><input type="hidden" id="cTime" value="<%= countTime %>"></span>
+        </div>
+
+        <form method="post" id="theForm">
+            <% let Parts = Exam.ArrPart %>                     
+            <% for (const Part of Parts) { %>
+                <p></p>         
+                <h2 class="part-title">Part name: <%= Part.Partname %></h2>
+                <% var pName = Part.Partname %>
+                    <% let Tests = Part.ArrTest %>               
+                    <!-- Begin of array test -->
+                    <% for ( const Test of Tests) { %> 
+                        <% let Questions = Test.ArrQues %>
+                            <div class="quiz-container"> 
+                                <div class="test">                 
+                                    <p></p>
+                                    <!-- If listening -->
+                                    <% if (skillID == 1) { %>
+                                        <div class="audio-player">
+                                                <audio id="audio" controls name="audio" style="display: none;">
+                                                    <source src="/audio/<%= Test.Audio %>" type="audio/ogg">
+                                                    Your browser does not support the audio element.
+                                                </audio>
+                                                <button id="playPauseBtn" type="button" class="audio-button play-pause-btn">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7b5c">
+                                                        <path d="M8 5v14l11-7z"/>
+                                                    </svg>
+                                                </button>
+                                                <div id="timeDisplay" class="time-display">00:00 / 00:00</div>
+                                        
+                                                <div id="progressBarContainer" class="progress-container">
+                                                    <div id="progressBar" class="progress-bar"></div>
+                                                </div>
+                                                <button id="volumeBtn" type="button" class="audio-button">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#666">
+                                                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                                                    </svg>
+                                                </button>
+                                        </div>                                    
+                                        <p></p>
+                                        <!-- If listening has photo -->
+                                        <% if (pName == "Photographs") { %>
+                                            <div class="image-container">
+                                                <img src= "/image/<%= Test.Image %>" alt="https://via.placeholder.com/600x400">
+                                            </div>
+
+                                            <div class="zoom-controls">
+                                                <button class="zoom-btn">
+                                                    <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                                        <circle cx="12" cy="12" r="3"/>
+                                                    </svg>
+                                                </button>
+                                                <button class="zoom-btn">
+                                                    <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <circle cx="11" cy="11" r="8"></circle>
+                                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                                                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                                                    </svg>
+                                                </button>
+                                                
+                                                <button class="zoom-btn">
+                                                    <svg class="zoom-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <circle cx="11" cy="11" r="8"></circle>
+                                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        <% } %>
+                                    <% } %>
+                                    <% if (skillID == 2) { %>
+                                        <!-- Text file display -->
+                                        <div class="text-box" data-text-src="/text/<%= Test.Text %>">
+                                            <pre>Loading...</pre>
+                                        </div>
+                                        <p></p>
+                                    <% } %>
+                                    <div class="options"> 
+                                        <!-- Question -->
+                                                    
+                                        <% for (const Question of Questions) { %>  
+                                            <p></p> 
+                                                <p></p>
+                                                Question: <b class="question-order"><%= Question.Orderquestion %>) <b><%= Question.Content %></b></b>                
+                                                <% var soq = Question.Orderquestion %>
+                                                <input type="hidden" name="sqid" value="<%= Question.Quesionid %>"/>   
+                                                <% var olet = "" %>    
+                                                <% var Options = Question.ArrOpt %>             
+                                                <% for (var index = 0; index < Options.length; index++) { %>    
+                                                    <% if (index == 0) { olet = "a"; } %>          
+                                                    <% if (index == 1) { olet = "b"; } %>
+                                                    <% if (index == 2) { olet = "c"; } %>
+                                                    <% if (index == 3) { olet = "d"; } %>
+                    
+                                                    <label class="option">
+                                                        <input type="radio" name="<%= soq %>" value="<%= olet %>" /> <span>(<%= olet %>)</span> <%= Options[index] %>
+                                                    </label>
+                                                    <p></p>
+                                                <% } %>        
+                                        <% } %>         
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>             
+                    <% } %>
+            <div class="btn-container">
+                <input type="submit" class="btn result-btn" id="result" value="Result" formaction="/exam/score/<%= Exam.Examid %>" disabled/>
+                <input type="button" class="btn end-btn" id="end" value="End" onclick="callfetch()"/>
+            </div>
+        </form>
+        <%- include('component/footer') %>
+
+    <script>
+        // Fetch and display text file content for all .text-box elements
+        document.querySelectorAll('.text-box').forEach(textBox => {
+            const textSrc = textBox.getAttribute('data-text-src'); // Get the text file path
+            const preElement = textBox.querySelector('pre'); // Get the <pre> element inside the text box
+
+            // Fetch the content of the text file
+            fetch(textSrc)
+            .then(response => response.text())
+            .then(data => {
+                preElement.textContent = data; // Display the content
+            })
+            .catch(error => {
+                console.error("Error fetching the text file:", error);
+                preElement.textContent = "Failed to load content.";
+            });
+        });
+
+        function getQID() {
+            var arrSid = []
+            var arr = document.getElementsByName('sqid')
+            for (var i = 0; i < arr.length; i++) {
+                arrSid.push(arr[i].value)
+            }
+            console.log(arrSid)
+            return arrSid
+        }
+        function getQOD() {
+            var arrSod = []
+            var arr = document.getElementsByName('sqid')
+            for (var i = 1; i < arr.length + 1; i++) {
+                var si = i.toString()
+                var soq = document.getElementsByName(si)
+
+                var ischecked = false
+                for (var j = 0; j < soq.length; j++) {
+                    var val = ''
+                    if (soq[j].checked) {
+                        var val = soq[j].value
+                        arrSod.push(val)
+                        ischecked = true
+                        console.log(val)
+                    }
+                }
+                if (!ischecked) {
+                    arrSod.push('')
+                }                
+            }
+            console.log(arrSod)
+            return arrSod
+        }
+
+        /******* script for new clock *****/
+        function showClock(id) {
+            noBack(); 
+
+            const cTime = document.getElementById("cTime");
+            let countTime = cTime.value * 60; // Convert minutes to seconds
+            let curr = 1;
+
+            const timerDisplay = document.getElementById("timer-display"); // Single display for the timer
+            const endButton = document.getElementById("end");
+
+            const x = setInterval(function () { // Update the countdown every second
+                curr += 1;
+                let remain = countTime - curr;
+
+                // Calculate hour, minute, second
+                const hour = String(Math.floor(remain / 3600)).padStart(2, '0');
+                const minute = String(Math.floor((remain % 3600) / 60)).padStart(2, '0');
+                const second = String(Math.floor(remain % 60)).padStart(2, '0');
+
+                // Display in 00:00:00 format
+                timerDisplay.innerText = `${hour}:${minute}:${second}`;
+
+                if (remain < 0) {
+                    /** if button 'end' not clicked **/
+                    if (!endButton.disabled) {
+                        callfetch(); // Trigger blur box overlay when time hits zero
+                        console.log('Call callfetch() from showClock()');
+                    }
+                    clearInterval(x);
+                }
+            }, 1000);
+
+                // Stop the clock if the 'end' button is clicked
+                endButton.addEventListener('click', function () {
+                    clearInterval(x);
+                    console.log('Timer stopped manually by clicking End button');
+                });
+            } /******* End of script for new clock *****/
+
+        /***** script for no back page *****/ 
+        function preventBack() { 
+            window.history.forward();  
+        } 
+
+        function noBack() {
+            setTimeout("preventBack()", 0);             
+            window.onunload = function () { null };       
+        }
+
+
+        async function myfetch() {
+            const response = await fetch('/exam/list/<%= Exam.Examid %>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify({ sqod: getQOD(), sqid: getQID(), mess: 'mess' }),
+            })                
+            console.log("is fetched")
+        }
+        
+        //switch reult button to enable when time is up or end button is clicked
+        function callfetch() {
+            // Select all quiz-container elements
+            const quizContainers = document.querySelectorAll('.quiz-container');
+
+            // Apply the blur effect to each quiz-container
+            quizContainers.forEach((container) => {
+                container.style.filter = 'blur(5px)';
+                container.style.pointerEvents = 'none'; // Disable interaction with blurred content
+            });
+
+            setTimeout(myfetch, 1000);
+            console.log("call myfetch()")
+            document.getElementById('result').disabled = false
+            document.getElementById('end').disabled = true
+            console.log("reset buttons")     
+        }/***** End of script for no back page *****/ 
+
+        /***** script for audio bar *****/
+        document.addEventListener('DOMContentLoaded', function () {
+        const quizContainers = document.querySelectorAll('.quiz-container');
+
+        quizContainers.forEach((container) => {
+            const audioElement = container.querySelector('#audio');
+            const playPauseBtn = container.querySelector('#playPauseBtn');
+            const timeDisplay = container.querySelector('#timeDisplay');
+            const progressBarContainer = container.querySelector('#progressBarContainer');
+            const progressBar = container.querySelector('#progressBar');
+            const volumeBtn = container.querySelector('#volumeBtn');
+
+            let isDragging = false;
+
+            // Event Listeners
+            playPauseBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                togglePlayPause();
+            });
+
+            volumeBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                toggleMute();
+            });
+
+            audioElement.addEventListener('timeupdate', updateProgress);
+
+            // Progress Bar Dragging
+            progressBarContainer.addEventListener('mousedown', (event) => {
+                isDragging = true;
+                updateAudioTime(event);
+            });
+
+            document.addEventListener('mousemove', (event) => {
+                if (isDragging) {
+                    updateAudioTime(event);
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                }
+            });
+
+            // Toggle Play and Pause
+            function togglePlayPause() {
+                if (audioElement.paused) {
+                    audioElement.play();
+                    playPauseBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7b5c"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                } else {
+                    audioElement.pause();
+                    playPauseBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="#ff7b5c"><path d="M8 5v14l11-7z"/></svg>';
+                }
+            }
+
+            // Toggle Mute
+            function toggleMute() {
+                audioElement.muted = !audioElement.muted;
+                volumeBtn.innerHTML = audioElement.muted
+                    ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="#666"><path d="M3 9v6h4l5 5V4L7 9H3z M16 12l4 4m0-4l-4-4"/></svg>'
+                    : '<svg width="24" height="24" viewBox="0 0 24 24" fill="#666"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>';
+            }
+
+            // Update Progress Bar
+            function updateProgress() {
+                if (!isDragging) {
+                    const currentTime = formatTime(audioElement.currentTime);
+                    const duration = formatTime(audioElement.duration || 0);
+                    timeDisplay.textContent = `${currentTime} / ${duration}`;
+
+                    const percent = (audioElement.currentTime / audioElement.duration) * 100;
+                    progressBar.style.width = `${percent}%`;
+                }
+            }
+
+            // Update Audio Time on Drag
+            function updateAudioTime(event) {
+                const rect = progressBarContainer.getBoundingClientRect();
+                const offsetX = event.clientX - rect.left;
+                const percent = Math.min(Math.max(offsetX / rect.width, 0), 1);
+
+                audioElement.currentTime = percent * audioElement.duration;
+                progressBar.style.width = `${percent * 100}%`;
+
+                const currentTime = formatTime(audioElement.currentTime);
+                const duration = formatTime(audioElement.duration || 0);
+                timeDisplay.textContent = `${currentTime} / ${duration}`;
+            }
+
+            // Format Time Display
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = Math.floor(seconds % 60);
+                return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+                }
+            });
+        }); /***** End script for audio bar *****/ 
+
+
+        /***** code will run after page loaded *****/
+        if (window.attachEvent)
+            { window.attachEvent('onload', showClock('<%= Exam.Examid %>')); }
+        else if (window.addEventListener)
+            { window.addEventListener('load', showClock('<%= Exam.Examid %>'), false); }
+        else
+            { document.addEventListener('load', showClock('<%= Exam.Examid %>'), false); }
+    </script>
+    </body>
+</html>

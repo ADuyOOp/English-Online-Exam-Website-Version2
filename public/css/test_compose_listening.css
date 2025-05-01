@@ -1,0 +1,314 @@
+h2 {
+    color:#e56b00;
+}
+
+.quiz-container {
+    max-width: 800px;
+    margin: 30px auto 10px;
+    background: #f1e1e1;
+    border-radius: 10px;
+    box-shadow: 4px 4px #c34105;
+    padding: 20px;
+    border: 2px solid #c34105;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #25100b; 
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    box-shadow:  4px 4px #323232;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical;
+}
+
+/* Placeholder styling */
+textarea::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+/* Hover and focus effects */
+textarea:hover {
+    border-color: #ff6f00; 
+}
+
+textarea:focus {
+    border-color: #ff6f00;
+    outline: none;
+    box-shadow: 0 0 8px rgba(251, 110, 2, 0.5); 
+}
+
+/* General input styling */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 2px solid #000000; 
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9f9; 
+    box-shadow: 4px 4px #323232;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Disabled input styling */
+input[type="text"]:disabled {
+    background-color: #f1f1f1; 
+    color: #9d9d9d; 
+    cursor: not-allowed; 
+    border: 2px solid #787777;
+}
+
+/* Hover and focus effects for enabled inputs */
+input[type="text"]:not(:disabled):hover {
+    border-color: #ff6f00; 
+}
+
+input[type="text"]:not(:disabled):focus {
+    border-color: #ff6f00;
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 111, 0, 0.5);
+}
+
+.input::placeholder {
+    color: #666;
+    opacity: 0.8;
+}
+
+.input:focus {
+    border-color: #ff6f00;
+    outline: none;
+    box-shadow: 0 0 8px rgba(251, 110, 2, 0.5); 
+}
+
+.end-btn a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.add-file-button {
+    border: none;
+    display: inline-flex; 
+    padding: 0.75rem 1.5rem;
+    background-color: #4caf50;
+    color: #ffffff;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    vertical-align: middle;
+    align-items: center;
+    border-radius: 0.5rem;
+    user-select: none;
+    gap: 0.75rem;
+    box-shadow:
+        0 4px 6px -1px rgba(76, 175, 80, 0.2),
+        0 2px 4px -1px rgba(76, 175, 80, 0.1); 
+    transition: all 0.6s ease;
+    width: auto; 
+    max-width: 200px; 
+    white-space: nowrap; 
+}
+
+.add-file-button:hover {
+    box-shadow:
+        0 10px 15px -3px rgba(76, 175, 80, 0.3), 
+        0 4px 6px -2px rgba(76, 175, 80, 0.2); 
+}
+
+.add-file-button:focus,
+.add-file-button:active {
+    opacity: 0.85;
+    box-shadow: none;
+}
+
+.add-file-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: #ffffff; 
+}
+
+/* custom select  */
+.custom-select-container {
+    position: relative;
+    width: 120px;
+    user-select: none;
+    border-radius: 8px;
+    box-shadow: 4px 4px #323232;
+}
+
+.select-selected {
+    background-color: white;
+    color: #1a202c;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select-selected:hover {
+    border-color: #dd642c;
+}
+
+.select-selected.active {
+    border-color: #dd642c;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    border-radius: 8px 8px 0 0;
+}
+
+  /* Arrow */
+.select-arrow {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #718096;
+    transition: transform 0.3s ease;
+    margin-left: 10px;
+}
+
+.select-selected.active .select-arrow {
+    transform: rotate(180deg);
+}
+
+/* Options container */
+.select-items {
+    position: absolute;
+    background-color: white;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 2px solid #dd642c;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 99;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.select-items.show {
+    max-height: 200px;
+    opacity: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Option items */
+.select-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.select-item:last-child {
+    border-radius: 0 0 8px 8px;
+}
+
+.select-item:hover {
+    background-color: #ebb06c;
+    color: #ffffff;
+    transform: translateX(10px);
+}
+
+.select-item.selected {
+    background-color: #fc8530;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Hide original select element */
+.hidden-select {
+    display: none;
+}
+
+/* Add animation for options */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+
+.divider-line {
+    border: 0;
+    height: 3px;
+    background: #fc8530;
+    margin: 20px 0;
+}
+
+.input-container {
+    display: flex;       
+    align-items: center; 
+    gap: 1px;           
+}
+
+.input-container > label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px;       
+    font-family: Arial, sans-serif;
+    min-width: 20px;
+}
+  
+
+/* Styled Select Dropdown in edit*/
+.styled-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+    min-width: 100px;
+}
+
+.styled-select:hover {
+    border-color: #ff7b5c;
+}
+
+.styled-select:focus {
+    border-color: #ff7b5c;
+    box-shadow: 0 0 0 2px rgba(255, 123, 92, 0.2);
+}
+
+.styled-select option {
+    padding: 8px;
+    background-color: white;
+    color: #333;
+}
+
+.styled-select option:checked {
+    background-color: #ff7b5c;
+    color: white;
+}

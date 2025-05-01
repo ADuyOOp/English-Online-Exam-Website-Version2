@@ -1,0 +1,31 @@
+<html>
+<head>
+  <meta charset="UTF-8" />
+</head>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+</style>
+<body>
+  <div>
+  <form method="POST">           
+      <p>Create User.</p>
+      <label>Name</label><input name="name" type="text" required />
+      <p>
+      <label>Password</label><input name="password" type="password" required />
+      <p>
+      <label>Role: </label>
+      <select name="role">
+          <option value="staff" selected>staff</option>
+          <option value="admin">admin</option>
+      </select>
+
+      <p>  
+      <input type="submit" value="Create" formaction="/user/create"/>
+  </form>
+</div>
+</body>
+</html>
