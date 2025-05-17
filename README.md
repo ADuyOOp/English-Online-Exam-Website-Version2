@@ -1,4 +1,4 @@
-# prac6-composev2 (change later)
+# English-Online-Exam-Website-Version2
 
 Web-based Application for Online English Exam Practice
 
